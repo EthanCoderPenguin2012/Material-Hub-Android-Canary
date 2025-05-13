@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Material Hub Android Dev</title>
+  <link rel="icon" href="https://fonts.gstatic.com/s/i/materialiconsoutlined/android/v16/24px.svg">
+  <meta name="theme-color" content="#181A20">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    :root {
+      --primary: #00bfa6;
+      --accent: #ffb300;
+      --bg: #181A20;
+      --surface: #23262F;
+      --text: #F5F6FA;
+      --text-muted: #A0A4B8;
+      --radius: 18px;
+      --shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+      --transition: 0.6s cubic-bezier(.4,0,.2,1);
+    }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+    header {
+      padding: 48px 0 24px 0;
+      text-align: center;
+      background: linear-gradient(120deg, #23262F 60%, #00bfa6 100%);
+      box-shadow: var(--shadow);
+      border-radius: 0 0 var(--radius) var(--radius);
+      animation: fadeInDown 1.2s var(--transition);
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin: 0 0 12px 0;
+      letter-spacing: -1px;
+      background: linear-gradient(90deg, #00bfa6, #ffb300 80%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      font-weight: 400;
+    }
+    .note {
+      display: inline-block;
+      background: #23262F;
+      color: var(--accent);
+      padding: 6px 18px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+      animation: fadeIn 1.5s var(--transition);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0;}
+      to { opacity: 1;}
+    }
+    main {
+      max-width: 700px;
+      margin: 32px auto;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 32px 32px 32px;
+      animation: fadeInUp 1.2s var(--transition);
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    section {
+      margin-bottom: 36px;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 14px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+    ul, ol {
+      padding-left: 1.2em;
+      margin: 0 0 12px 0;
+    }
+    li {
+      margin-bottom: 8px;
+      font-size: 1.08rem;
+      line-height: 1.7;
+      transition: color 0.3s;
+    }
+    li strong, li b {
+      color: var(--accent);
+    }
+    .feature-list li {
+      position: relative;
+      padding-left: 2em;
+      opacity: 0;
+      animation: featureFadeIn 0.8s forwards;
+    }
+    .feature-list li:before {
+      content: '';
+      position: absolute;
+      left: 0.2em;
+      top: 0.5em;
+      width: 1.2em;
+      height: 1.2em;
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.8;
+    }
+    .feature-list li:nth-child(1):before { background-image: url('https://fonts.gstatic.com/s/i/materialiconsoutlined/article/v16/24px.svg'); }
+    .feature-list li:nth-child(2):before { background-image: url('https://fonts.gstatic.com/s/i/materialiconsoutlined/wb_sunny/v16/24px.svg'); }
+    .feature-list li:nth-child(3):before { background-image: url('https://fonts.gstatic.com/s/i/materialiconsoutlined/check_circle/v16/24px.svg'); }
+    .feature-list li:nth-child(4):before { background-image: url('https://fonts.gstatic.com/s/i/materialiconsoutlined/event/v16/24px.svg'); }
+    .feature-list li:nth-child(5):before { background-image: url('https://fonts.gstatic.com/s/i/materialiconsoutlined/brush/v16/24px.svg'); }
+    .feature-list li:nth-child(6):before { background-image: url('https://fonts.gstatic.com/s/i/materialiconsoutlined/dark_mode/v16/24px.svg'); }
+    .feature-list li { animation-delay: calc(0.1s * var(--i)); }
+    @keyframes featureFadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .coming-soon {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 0.98em;
+    }
+    .screenshots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+      background: #23262F;
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font-size: 1.1em;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+      letter-spacing: 0.5px;
+    }
+    code, pre {
+      background: #181A20;
+      color: #ffb300;
+      border-radius: 8px;
+      padding: 2px 8px;
+      font-size: 1em;
+      font-family: 'Fira Mono', 'Consolas', monospace;
+    }
+    .tech-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .tech-item {
+      background: #23262F;
+      color: var(--primary);
+      padding: 6px 16px;
+      border-radius: 12px;
+      font-size: 1em;
+      font-weight: 500;
+      box-shadow: 0 1px 4px 0 rgba(0,0,0,0.10);
+      transition: background 0.3s;
+    }
+    .contact-link {
+      color: var(--accent);
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    .contact-link:hover {
+      color: var(--primary);
+    }
+    @media (max-width: 800px) {
+      main { padding: 24px 8px;}
+      h1 { font-size: 2rem;}
+    }
+    @media (max-width: 500px) {
+      main { padding: 12px 2vw;}
+      h1 { font-size: 1.3rem;}
+      .screenshots { font-size: 0.95em;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Material Hub Android Dev</h1>
+    <div class="subtitle">All-in-one Android app for your day—news, weather, and tasks in Material Design 3.</div>
+    <div class="note">Note: This is the development build. A stable release will be available soon.</div>
+  </header>
+  <main>
+    <section>
+      <h2>✨ Features</h2>
+      <ul class="feature-list">
+        <li style="--i:1">📰 <b>News Updates:</b> Stay informed with the latest headlines.</li>
+        <li style="--i:2">☀️ <b>Weather Forecasts:</b> Get up-to-date weather information.</li>
+        <li style="--i:3">✅ <b>To-Do List Management:</b> Organize your tasks efficiently.</li>
+        <li style="--i:4">📅 <b>Calendar Integration:</b> <span class="coming-soon">(Coming soon)</span></li>
+        <li style="--i:5">🎨 <b>Material Design 3 UI:</b> Enjoy a clean, modern look.</li>
+        <li style="--i:6">🌙 <b>Dark Mode Support:</b> Switch between light and dark themes.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>📸 Screenshots</h2>
+      <div class="screenshots">Screenshots coming soon!</div>
+    </section>
+    <section>
+      <h2>🚀 Getting Started</h2>
+      <ol>
+        <li><b>Clone the repository:</b>
+          <pre><code>git clone https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Dev.git</code></pre>
+        </li>
+        <li><b>Open the project</b> in Android Studio.</li>
+        <li><b>Build and run</b> the app on your emulator or physical device.</li>
+        <li><b>Explore</b> the features and provide feedback!</li>
+      </ol>
+      <div style="color:var(--text-muted);font-size:0.98em;margin-top:8px;">
+        <b>Prerequisites:</b> Android Studio Meerkat+, JDK 21+, Android 8.0+, Git
+      </div>
+    </section>
+    <section>
+      <h2>🛠️ Technologies Used</h2>
+      <div class="tech-list">
+        <span class="tech-item">Kotlin</span>
+        <span class="tech-item">Android Jetpack</span>
+        <span class="tech-item">Material Design 3</span>
+        <span class="tech-item">Retrofit</span>
+        <span class="tech-item">Room</span>
+      </div>
+    </section>
+    <section>
+      <h2>🤝 Contributing</h2>
+      <p>
+        Currently, contributions are not accepted. However, you are welcome to open issues for bugs or feature requests.<br>
+        Suggestions and improvements are appreciated! Interested in helping port the app to iOS? Please contact us.
+      </p>
+    </section>
+    <section>
+      <h2>📄 License</h2>
+      <p>
+        This project is licensed under the MIT License. See the <a href="https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Dev/blob/main/LICENSE" class="contact-link">LICENSE</a> file for details.
+      </p>
+    </section>
+    <section>
+      <h2>📬 Contact</h2>
+      <p>
+        For questions, suggestions, or feedback, please open an issue or contact me via
+        <a href="mailto:ethan.h.patmore@gmail.com" class="contact-link">email</a>.
+      </p>
+    </section>
+  </main>
+  <script>
+    // Animate feature list items in sequence
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.feature-list li').forEach((li, i) => {
+        setTimeout(() => li.style.opacity = 1, 200 + i * 120);
+      });
+    });
+    // Subtle parallax effect for header
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      header.style.backgroundPositionY = `${window.scrollY * 0.3}px`;
+    });
+  </script>
+</body>
+</html>
