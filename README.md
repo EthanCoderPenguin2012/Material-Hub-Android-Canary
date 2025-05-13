@@ -1,8 +1,8 @@
-# Material Hub Android Dev
+# Material Hub Android Canary
 
 Material Hub is an all-in-one Android app designed to help you organize your day with integrated news, weather, and to-do list features—all wrapped in a modern Material Design 3 interface.
 
-> **Note:** This is the canary build. A stable alpha release will be available soon. For now, I am sorting out readmes and the ([Website](https://ethancoderpenguin2012.github.io/Material-Hub-Andriod-Dev/))
+> **Note:** This is the canary build. A stable alpha release will be available soon. For now, I am sorting out readmes and the [Website](https://ethancoderpenguin2012.github.io/Material-Hub-Andriod-Canary/)
 
 ---
 
@@ -42,7 +42,7 @@ Follow these steps to set up and run the Material Hub app locally:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Dev.git
+   git clone https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary.git
    ```
 2. **Open the project** in Android Studio.
 3. **Build and run** the app on your emulator or physical device.
@@ -63,7 +63,7 @@ Follow these steps to set up and run the Material Hub app locally:
 
 ## 🤝 Contributing
 
-Currently, contributions are not accepted. However, you are welcome to open issues for bugs or feature requests. Suggestions and improvements are appreciated! Interested in helping port the app to iOS? Please contact us.
+Currently, contributions are not accepted. However, you are welcome to open issues for bugs or feature requests. Suggestions and improvements are appreciated! Interested in helping port the app to iOS? Please contact us [here](mailto:ethan.h.patmore@gmail.com), or make a pull request.
 
 ---
 
