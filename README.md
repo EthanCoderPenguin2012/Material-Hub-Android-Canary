@@ -1,25 +1,74 @@
 # Material Hub Android Dev
-This repository contains the code and assets for the Material Hub app for Android. It is designed to help you manage your day, with news, weather, and a to-do list all in one place.
-**Note**: As the name indicates, this is the dev build. A stable release will be available soon.
-## Features
-- News updates
-- Weather forecasts
-- To-do list management
-- Calendar integration (soon)
-- Material Design 3 UI
-- Dark mode support
-## Screenshots
-coming soon
-## Getting Started
-To get started with the Material Hub app, follow these steps:
-1. Clone the repository:
+
+Material Hub is an all-in-one Android app designed to help you organize your day with integrated news, weather, and to-do list features—all wrapped in a modern Material Design 3 interface.
+
+> **Note:** This is the development build. A stable release will be available soon.
+
+---
+
+## ✨ Features
+
+- 📰 **News Updates:** Stay informed with the latest headlines.
+- ☀️ **Weather Forecasts:** Get up-to-date weather information.
+- ✅ **To-Do List Management:** Organize your tasks efficiently.
+- 📅 **Calendar Integration:** *(Coming soon)*
+- 🎨 **Material Design 3 UI:** Enjoy a clean, modern look.
+- 🌙 **Dark Mode Support:** Switch between light and dark themes.
+
+---
+
+## 📸 Screenshots
+
+*Screenshots coming soon!*
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to set up and run the Material Hub app locally:
+
+### Prerequisites
+
+- [Android Studio Meerkat](https://developer.android.com/studio) or higher
+- Java Development Kit (JDK) 21 or higher
+- Android device or emulator running Android 8.0 (Oreo) or higher
+- Git
+
+### Installation
+
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Dev.git
-    ```
-2. Open the project in Android Studio.
-3. Build and run the app on an emulator or physical device.
-4. Explore the features and provide feedback.
-## Contributing
-Contributions are not yet accepted, but feel free to open issues for bugs or feature requests. If you have any suggestions or improvements, please let us know. If you want to help port the app to iOS, please contact us.
-## License
+   ```
+2. **Open the project** in Android Studio.
+3. **Build and run** the app on your emulator or physical device.
+4. **Explore** the features and provide feedback!
+
+---
+
+## 🛠️ Technologies Used
+
+- Kotlin
+- Android Jetpack Libraries
+- Material Design 3
+- Retrofit (for networking)
+- Room (for local data)
+
+
+---
+
+## 🤝 Contributing
+
+Currently, contributions are not accepted. However, you are welcome to open issues for bugs or feature requests. Suggestions and improvements are appreciated! Interested in helping port the app to iOS? Please contact us.
+
+---
+
+## 📄 License
+
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📬 Contact
+
+For questions, suggestions, or feedback, please open an issue or contact me via [email](mailto:ethan.h.patmore@gmail.com).
