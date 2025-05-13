@@ -2,7 +2,7 @@
 
 Material Hub is an all-in-one Android app designed to help you organize your day with integrated news, weather, and to-do list features—all wrapped in a modern Material Design 3 interface.
 
-> **Note:** This is the development build. A stable release will be available soon.
+> **Note:** This is the canary build. A stable alpha release will be available soon. For now, I am sorting out readmes and the ([Website](https://ethancoderpenguin2012.github.io/Material-Hub-Andriod-Dev/))
 
 ---
 
