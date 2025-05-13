@@ -2,34 +2,41 @@
 
 ⸻
 
-## First Stages:
-	1.	News Updates
-	•	Integrate APIs for real-time news headlines.
-	•	Display personalized or region-based news feeds.
-	2.	Weather Forecasts
-	•	Implement weather API for location-based forecasts.
-	•	Show daily and weekly forecasts in a concise layout.
-	3.	To-Do List Management
-	•	Create, edit, and delete tasks.
-	•	Set priorities, due dates, and completion status.
-	4.	Material Design 3 UI
-	•	Apply MD3 components, typography, and layout styles.
-	•	Ensure smooth transitions and responsive design.
-	5.	Dark Mode Support
-	•	Support both system-wide and manual theme switching.
-	•	Ensure consistent UI/UX in both light and dark modes.
-	6.	Calendar Integration
-	•	Sync tasks with system calendar.
-	•	Visualize tasks and events on a monthly/weekly view.
+## First Stages
+
+1. **News Updates**
+   - Integrate APIs to fetch real-time news headlines.
+   - Display personalized or region-based news feeds in an intuitive layout.
+
+2. **Weather Forecasts**
+   - Implement a weather API for accurate, location-based forecasts.
+   - Present daily and weekly forecasts in a clear, concise format.
+
+3. **To-Do List Management**
+   - Enable users to create, edit, and delete tasks.
+   - Support task prioritization, due dates, and completion tracking.
+
+4. **Material Design 3 UI**
+   - Apply Material Design 3 components, typography, and layouts.
+   - Ensure smooth transitions and a responsive interface across devices.
+
+5. **Dark Mode Support**
+   - Support both system-wide and manual theme switching.
+   - Maintain consistent UI/UX in both light and dark modes.
+
+6. **Calendar Integration**
+   - Sync tasks with the system calendar.
+   - Visualize tasks and events in monthly and weekly calendar views.
 
 ⸻
 
 ## Final Stages
-	•	Voice input for task creation.
-	•	Offline mode for news and weather caching.
-	•	Widgets for home screen access.
-	•	Notifications and reminders integration.
-	•	Fix any remaining bugs and issues.
+
+- Add voice input for quick task creation.
+- Implement offline mode for news and weather caching.
+- Provide home screen widgets for quick access to key features.
+- Integrate notifications and reminders for tasks and events.
+- Address remaining bugs and polish the user experience.
 
 ⸻
 
