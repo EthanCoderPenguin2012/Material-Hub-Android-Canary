@@ -1,3 +1,4 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
 package com.ethan.materialhub.ui.screens.todo
 
 import androidx.compose.animation.*
@@ -20,6 +21,9 @@ import com.ethan.materialhub.data.todo.TodoEntity
 import com.ethan.materialhub.data.todo.TodoRepository
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.DeleteSweep
 
 enum class TodoFilter {
     ALL, ACTIVE, COMPLETED
@@ -426,6 +430,6 @@ fun AddTodoDialog(
     }
 }
 
-fun String.capitalize(): String {
+fun String.capitalizeFirstChar(): String {
     return this.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 } 

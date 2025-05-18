@@ -1,3 +1,4 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
 package com.ethan.materialhub.ui.screens.news
 
 import android.content.Intent
@@ -26,6 +27,7 @@ import com.ethan.materialhub.data.news.Article
 import com.ethan.materialhub.data.news.NewsRepository
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.Context
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,6 +43,7 @@ fun NewsScreen(
     var showSearchBar by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
+    val toolbarColor = MaterialTheme.colorScheme.primary.toArgb()
     
     // Load more when reaching the end of the list
     LaunchedEffect(listState) {
@@ -53,21 +56,6 @@ fun NewsScreen(
                     viewModel.loadMoreNews()
                 }
             }
-        }
-    }
-    
-    fun openArticle(article: Article) {
-        val customTabsIntent = CustomTabsIntent.Builder()
-            .setToolbarColor(MaterialTheme.colorScheme.primary.toArgb())
-            .setShowTitle(true)
-            .build()
-        
-        try {
-            customTabsIntent.launchUrl(context, Uri.parse(article.url))
-        } catch (e: Exception) {
-            // Fallback to regular browser if custom tabs are not available
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
-            context.startActivity(intent)
         }
     }
     
@@ -139,7 +127,7 @@ fun NewsScreen(
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             items(articles) { article ->
-                                NewsArticleCard(article = article, onArticleClick = { openArticle(it) })
+                                NewsArticleCard(article = article, onArticleClick = { openArticle(context, it, toolbarColor) })
                             }
                             
                             if ((uiState as NewsUiState.Success).hasMorePages) {
@@ -249,6 +237,20 @@ fun NewsArticleCard(
                 }
             }
         }
+    }
+}
+
+private fun openArticle(context: Context, article: Article, toolbarColor: Int) {
+    val customTabsIntent = CustomTabsIntent.Builder()
+        .setToolbarColor(toolbarColor)
+        .setShowTitle(true)
+        .build()
+    try {
+        customTabsIntent.launchUrl(context, Uri.parse(article.url))
+    } catch (e: Exception) {
+        // Fallback to regular browser if custom tabs are not available
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
+        context.startActivity(intent)
     }
 }
 

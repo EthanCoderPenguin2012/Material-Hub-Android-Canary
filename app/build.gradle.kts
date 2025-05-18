@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
@@ -12,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ethan.materialhub"
-        minSdk = 33
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "0.0.01alphaCanary1"
@@ -32,6 +31,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "17"
@@ -39,10 +39,13 @@ android {
     buildFeatures {
         compose = true
     }
-    buildToolsVersion = "34.0.0"
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
 }
 
 dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -99,4 +102,10 @@ dependencies {
     implementation("com.google.dagger:hilt-android:${libs.versions.hilt.get()}")
     ksp("com.google.dagger:hilt-android-compiler:${libs.versions.hilt.get()}")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+
+    // Browser dependency
+    implementation("androidx.browser:browser:1.7.0")
+
+    // Material Icons Extended
+    implementation("androidx.compose.material:material-icons-extended")
 }

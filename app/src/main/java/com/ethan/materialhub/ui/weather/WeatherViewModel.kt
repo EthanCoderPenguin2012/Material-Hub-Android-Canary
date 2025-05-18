@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ethan.materialhub.data.weather.WeatherRepository
 import com.ethan.materialhub.data.weather.model.WeatherResponse
+import com.ethan.materialhub.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +23,7 @@ class WeatherViewModel @Inject constructor(
     fun fetchWeather(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             _weatherState.value = WeatherUiState.Loading
-            weatherRepository.getWeatherData(latitude, longitude)
+            weatherRepository.getWeatherData(latitude, longitude, BuildConfig.WEATHER_API_KEY)
                 .catch { e ->
                     _weatherState.value = WeatherUiState.Error(e.message ?: "Unknown error occurred")
                 }

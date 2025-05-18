@@ -26,11 +26,11 @@ class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
 
     private fun loadTodos() {
         viewModelScope.launch {
-            repository.getAllTodos()
+            repository.allTodos
                 .catch { e ->
-                    _uiState.value = TodoUiState.Error(e.message ?: "Failed to load todos")
+                    _uiState.value = TodoUiState.Error((e as? Throwable)?.message ?: "Failed to load todos")
                 }
-                .collect { todos ->
+                .collect { todos: List<TodoEntity> ->
                     _uiState.value = TodoUiState.Success(todos)
                 }
         }
