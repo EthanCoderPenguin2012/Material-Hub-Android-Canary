@@ -122,8 +122,10 @@ fun NewsScreen(
                     } else {
                         LazyColumn(
                             state = listState,
-                            modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(16.dp),
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(16.dp),
+                            contentPadding = PaddingValues(bottom = 16.dp),
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             items(articles) { article ->
