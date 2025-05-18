@@ -32,7 +32,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateColorAsState
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -47,7 +47,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.draw.clickable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import com.ethan.materialhub.ui.weather.ForecastUiState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -290,8 +293,8 @@ fun getMaterialWeatherIcon(condition: String): ImageVector {
         "rain", "patchy rain possible", "light rain", "showers" -> Icons.Filled.Umbrella
         "thunderstorm", "thundery outbreaks possible" -> Icons.Filled.FlashOn
         "snow", "sleet", "ice", "blizzard" -> Icons.Filled.AcUnit
-        "fog", "mist", "freezing fog" -> Icons.Filled.Foggy
-        else -> Icons.Filled.WbCloudy
+        "fog", "mist", "freezing fog" -> Icons.Filled.Cloud
+        else -> Icons.Filled.CloudQueue
     }
 }
 
