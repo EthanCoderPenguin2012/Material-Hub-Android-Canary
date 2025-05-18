@@ -2,8 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp") version "1.9.21-1.0.15"
-    id("com.google.dagger.hilt.android") version "2.48"
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -96,7 +96,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.48")
-    ksp("com.google.dagger:hilt-android-compiler:2.48")
+    implementation("com.google.dagger:hilt-android:${libs.versions.hilt.get()}")
+    ksp("com.google.dagger:hilt-android-compiler:${libs.versions.hilt.get()}")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 }
