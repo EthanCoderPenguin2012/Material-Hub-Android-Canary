@@ -38,4 +38,23 @@ class WeatherRepository @Inject constructor(
             throw WeatherError.UnknownError("An unexpected error occurred: ${e.message}")
         }
     }
+
+    fun getForecastData(latitude: Double, longitude: Double, apiKey: String, days: Int = 5): Flow<com.ethan.materialhub.data.weather.model.ForecastResponse> = flow {
+        try {
+            if (latitude == 0.0 && longitude == 0.0) {
+                throw WeatherError.LocationError("Invalid location coordinates")
+            }
+            val location = "$latitude,$longitude"
+            val response = weatherApi.getForecast(apiKey, location, days)
+            emit(response)
+        } catch (e: HttpException) {
+            throw WeatherError.ServerError("Server error: ${e.message()}")
+        } catch (e: IOException) {
+            throw WeatherError.NetworkError("Network error: Please check your internet connection")
+        } catch (e: WeatherError) {
+            throw e
+        } catch (e: Exception) {
+            throw WeatherError.UnknownError("An unexpected error occurred: ${e.message}")
+        }
+    }
 } 

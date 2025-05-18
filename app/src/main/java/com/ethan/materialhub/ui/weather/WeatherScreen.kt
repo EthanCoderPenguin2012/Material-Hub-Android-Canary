@@ -102,24 +102,22 @@ private fun WeatherContent(weather: WeatherResponse) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = weather.name,
+            text = weather.location.name,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
         Text(
-            text = "${weather.main.temp}°C",
+            text = "${weather.current.temp_c}°C",
             style = MaterialTheme.typography.displayLarge,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        weather.weather.firstOrNull()?.let { currentWeather ->
-            Text(
-                text = currentWeather.description.capitalizeFirstChar(),
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(bottom = 24.dp)
-            )
-        }
+        Text(
+            text = weather.current.condition.text,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
 
         Card(
             modifier = Modifier
@@ -129,18 +127,10 @@ private fun WeatherContent(weather: WeatherResponse) {
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                WeatherDetailRow("Feels Like", "${weather.main.feels_like}°C")
-                WeatherDetailRow("Humidity", "${weather.main.humidity}%")
-                WeatherDetailRow("Wind Speed", "${weather.wind.speed} m/s")
-                WeatherDetailRow("Pressure", "${weather.main.pressure} hPa")
-                WeatherDetailRow(
-                    "Sunrise",
-                    SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(weather.sys.sunrise * 1000))
-                )
-                WeatherDetailRow(
-                    "Sunset",
-                    SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(weather.sys.sunset * 1000))
-                )
+                WeatherDetailRow("Humidity", "${weather.current.humidity}%")
+                WeatherDetailRow("Wind Speed", "${weather.current.wind_kph} kph")
+                WeatherDetailRow("Precipitation", "${weather.current.precip_mm} mm")
+                WeatherDetailRow("UV Index", "${weather.current.uv}")
             }
         }
     }
