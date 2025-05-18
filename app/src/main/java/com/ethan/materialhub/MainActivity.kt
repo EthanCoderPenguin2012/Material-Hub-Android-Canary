@@ -28,6 +28,7 @@ import com.ethan.materialhub.ui.screens.news.NewsScreen
 import com.ethan.materialhub.ui.screens.weather.WeatherScreen
 import com.ethan.materialhub.ui.screens.todo.TodoScreen
 import com.ethan.materialhub.ui.screens.calendar.CalendarScreen
+import com.ethan.materialhub.ui.screens.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 sealed class Screen(val route: String, val icon: Int, val label: String) {
@@ -47,42 +48,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MaterialHubTheme {
-                val navController = rememberNavController()
-                var selectedScreen by remember { mutableStateOf<Screen>(Screen.News) }
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    bottomBar = {
-                        NavigationBar {
-                            screens.forEach { screen ->
-                                NavigationBarItem(
-                                    icon = { Icon(painter = painterResource(id = screen.icon), contentDescription = screen.label) },
-                                    label = { Text(screen.label) },
-                                    selected = selectedScreen == screen,
-                                    onClick = {
-                                        selectedScreen = screen
-                                        navController.navigate(screen.route) {
-                                            popUpTo(navController.graph.startDestinationId)
-                                            launchSingleTop = true
-                                        }
-                                    }
-                                )
-                            }
-                        }
-                    }
-                ) { innerPadding ->
-                    NavHost(
-                        navController = navController,
-                        startDestination = Screen.News.route,
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        composable(Screen.News.route) { NewsScreen() }
-                        composable(Screen.Weather.route) { WeatherScreen() }
-                        composable(Screen.Todo.route) { TodoScreen() }
-                        composable(Screen.Calendar.route) { CalendarScreen() }
-                    }
-                }
+                MainScreen()
             }
         }
     }

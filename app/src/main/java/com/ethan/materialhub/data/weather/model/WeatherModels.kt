@@ -1,36 +1,31 @@
 package com.ethan.materialhub.data.weather.model
 
 data class WeatherResponse(
-    val weather: List<Weather>,
-    val main: Main,
-    val wind: Wind,
+    val location: Location,
+    val current: Current
+)
+
+data class Location(
     val name: String,
-    val sys: Sys
-)
-
-data class Weather(
-    val id: Int,
-    val main: String,
-    val description: String,
-    val icon: String
-)
-
-data class Main(
-    val temp: Double,
-    val feels_like: Double,
-    val temp_min: Double,
-    val temp_max: Double,
-    val pressure: Int,
-    val humidity: Int
-)
-
-data class Wind(
-    val speed: Double,
-    val deg: Int
-)
-
-data class Sys(
     val country: String,
-    val sunrise: Long,
-    val sunset: Long
+    val lat: Double,
+    val lon: Double,
+    val localtime: String
+)
+
+data class Current(
+    val temp_c: Double,
+    val condition: Condition,
+    val wind_kph: Double,
+    val humidity: Int,
+    val precip_mm: Double,
+    val is_day: Int,
+    val uv: Double,
+    val sunrise: String?, // Only available in forecast, not current
+    val sunset: String?   // Only available in forecast, not current
+)
+
+data class Condition(
+    val text: String,
+    val icon: String
 ) 

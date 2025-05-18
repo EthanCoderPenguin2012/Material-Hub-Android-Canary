@@ -25,17 +25,11 @@ class WeatherRepository @Inject constructor(
             if (latitude == 0.0 && longitude == 0.0) {
                 throw WeatherError.LocationError("Invalid location coordinates")
             }
-            
-            val response = weatherApi.getWeather(latitude, longitude, apiKey)
+            val location = "$latitude,$longitude"
+            val response = weatherApi.getWeather(apiKey, location)
             emit(response)
         } catch (e: HttpException) {
-            when (e.code()) {
-                401 -> throw WeatherError.NetworkError("Invalid API key")
-                404 -> throw WeatherError.NetworkError("Weather data not found for this location")
-                429 -> throw WeatherError.NetworkError("API rate limit exceeded")
-                500 -> throw WeatherError.ServerError("Weather service is currently unavailable")
-                else -> throw WeatherError.ServerError("Server error: ${e.message()}")
-            }
+            throw WeatherError.ServerError("Server error: ${e.message()}")
         } catch (e: IOException) {
             throw WeatherError.NetworkError("Network error: Please check your internet connection")
         } catch (e: WeatherError) {

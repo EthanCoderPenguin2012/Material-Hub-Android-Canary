@@ -23,7 +23,7 @@ class WeatherViewModel @Inject constructor(
     fun fetchWeather(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             _weatherState.value = WeatherUiState.Loading
-            weatherRepository.getWeatherData(latitude, longitude, BuildConfig.WEATHER_API_KEY)
+            weatherRepository.getWeatherData(latitude, longitude, "794d2bd44e894e39bac155724251805")
                 .catch { e ->
                     _weatherState.value = WeatherUiState.Error(e.message ?: "Unknown error occurred")
                 }

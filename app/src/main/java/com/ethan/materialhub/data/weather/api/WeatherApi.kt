@@ -5,11 +5,10 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherApi {
-    @GET("data/2.5/weather")
+    @GET("v1/current.json")
     suspend fun getWeather(
-        @Query("lat") latitude: Double,
-        @Query("lon") longitude: Double,
-        @Query("appid") apiKey: String,
-        @Query("units") units: String = "metric"
+        @Query("key") apiKey: String,
+        @Query("q") location: String, // format: "LAT,LON"
+        @Query("aqi") aqi: String = "no"
     ): WeatherResponse
 } 
