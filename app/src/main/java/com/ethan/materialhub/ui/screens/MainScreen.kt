@@ -227,7 +227,8 @@ fun MainScreen(viewModel: WeatherViewModel = hiltViewModel()) {
             ElevatedCard(
                 shape = MaterialTheme.shapes.extraLarge,
                 elevation = CardDefaults.elevatedCardElevation(defaultElevation = 6.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                modifier = Modifier.fillMaxWidth().height(400.dp)
             ) {
                 Column(
                     modifier = Modifier

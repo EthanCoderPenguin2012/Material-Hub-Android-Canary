@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,6 +29,7 @@ import com.ethan.materialhub.data.news.NewsRepository
 import java.text.SimpleDateFormat
 import java.util.*
 import android.content.Context
+import androidx.core.net.toUri
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,7 +75,7 @@ fun NewsScreen(
                     onActiveChange = { showSearchBar = it },
                     leadingIcon = {
                         IconButton(onClick = { showSearchBar = false }) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                         }
                     },
                     placeholder = { Text("Search news...") },
@@ -95,71 +97,75 @@ fun NewsScreen(
             }
         }
     ) { padding ->
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(padding)
+                .fillMaxSize()
         ) {
-            when (uiState) {
-                is NewsUiState.Loading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-                is NewsUiState.Success -> {
-                    val articles = (uiState as NewsUiState.Success).articles
-                    if (articles.isEmpty()) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                "No news found",
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    } else {
-                        LazyColumn(
-                            state = listState,
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(16.dp),
-                            contentPadding = PaddingValues(bottom = 16.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            items(articles) { article ->
-                                NewsArticleCard(article = article, onArticleClick = { openArticle(context, it, toolbarColor) })
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
+                when (uiState) {
+                    is NewsUiState.Loading -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                    is NewsUiState.Success -> {
+                        val articles = (uiState as NewsUiState.Success).articles
+                        if (articles.isEmpty()) {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    "No news found",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                             }
-                            
-                            if ((uiState as NewsUiState.Success).hasMorePages) {
-                                item {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(16.dp),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        CircularProgressIndicator()
+                        } else {
+                            LazyColumn(
+                                state = listState,
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                contentPadding = PaddingValues(bottom = 16.dp),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                items(articles) { article ->
+                                    NewsArticleCard(article = article, onArticleClick = { openArticle(context, it, toolbarColor) })
+                                }
+                                
+                                if ((uiState as NewsUiState.Success).hasMorePages) {
+                                    item {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(16.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            CircularProgressIndicator()
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                is NewsUiState.Error -> {
-                    Text(
-                        text = (uiState as NewsUiState.Error).message,
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    is NewsUiState.Error -> {
+                        Text(
+                            text = (uiState as NewsUiState.Error).message,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsArticleCard(
     article: Article,
@@ -248,10 +254,10 @@ private fun openArticle(context: Context, article: Article, toolbarColor: Int) {
         .setShowTitle(true)
         .build()
     try {
-        customTabsIntent.launchUrl(context, Uri.parse(article.url))
+        customTabsIntent.launchUrl(context, article.url.toUri())
     } catch (e: Exception) {
         // Fallback to regular browser if custom tabs are not available
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
+        val intent = Intent(Intent.ACTION_VIEW, article.url.toUri())
         context.startActivity(intent)
     }
 }
