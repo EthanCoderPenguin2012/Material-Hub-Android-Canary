@@ -3,18 +3,19 @@
 Material Hub is an all-in-one Android app designed to help you organize your day with integrated news, weather, and to-do list features—all wrapped in a modern Material Design 3 interface.
 
 > **Update**: The app has functions and sort of works, but it currently crashes as soon as you open it. I am working on a fix!
-
+> **Update 2**: The fix is taking longer than normal. I have now deployed an AI to fix it. Sorry for the wait!
 ---
 
 ## ✨ Features 
 
-Currently, the app is blank, but the following features are planned:
+Currently, the app is broken, but when I fix it it will have:
 - **News Updates:** Stay updated with the latest headlines.
 - **Weather Forecasts:** Get real-time weather updates.
 - **To-Do List Management:** Organize your tasks efficiently.
 - **Material Design 3 Expressive UI:** A modern and responsive design, with smooth, clean, and *expressive* animations.
 - **Dark Mode Support:** Switch between light and dark themes.
 - **Calendar Integration:** Sync tasks with your calendar.
+And coming soon:
 - **Voice Input:** Create tasks using voice commands.
 - **Offline Mode:** Access cached news and weather data.
 - **Widgets:** Quick access to tasks and updates from your home screen.
