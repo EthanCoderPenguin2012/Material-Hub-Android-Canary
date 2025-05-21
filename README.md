@@ -4,7 +4,7 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/EthanCoderPenguin2012/Material-Hub-Android-Canary?style=for-the-badge&color=blueviolet)](https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/EthanCoderPenguin2012/Material-Hub-Android-Canary?style=for-the-badge&color=lightblue)](https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary/network/members)
 [![Issues](https://img.shields.io/github/issues/EthanCoderPenguin2012/Material-Hub-Android-Canary?style=for-the-badge&color=yellow)](https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary/issues)
-[![MIT License](https://img.shields.io/github/license/EthanCoderPenguin2012/Material-Hub-Android-Canary?style=for-the-badge&color=brightgreen)](LICENSE)
+[![License](https://img.shields.io/github/license/EthanCoderPenguin2012/Material-Hub-Android-Canary?style=for-the-badge&color=brightgreen)](LICENSE)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/EthanCoderPenguin2012/Material-Hub-Android-Canary/android.yml?style=for-the-badge&label=Build&logo=android)](https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary/actions)
 ![Progress](https://img.shields.io/badge/Status-Broken-red?style=for-the-badge&logo=target&logoColor=white)
 
