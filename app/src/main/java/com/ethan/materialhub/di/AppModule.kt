@@ -36,7 +36,7 @@ object AppModule {
         // with your actual WeatherAPI key.
         // Ensure this key is added to your build.gradle file.
         // Example in app/build.gradle.kts (assuming buildConfigFields):
-        // buildConfigFields { put("String", "WEATHER_API_KEY", ""YOUR_WEATHER_API_KEY"") }
+        // buildConfigFields { put("String", "WEATHER_API_KEY", "\"YOUR_WEATHER_API_KEY\"") }
         return BuildConfig.WEATHER_API_KEY
     }
 
@@ -48,12 +48,12 @@ object AppModule {
         // with your actual News API key.
         // Ensure this key is added to your build.gradle file.
         // Example in app/build.gradle.kts (assuming buildConfigFields):
-        // buildConfigFields { put("String", "NEWS_API_KEY", ""YOUR_NEWS_API_KEY"") }
+        // buildConfigFields { put("String", "NEWS_API_KEY", "\"YOUR_NEWS_API_KEY\"") }
         // **IMPORTANT**: Verify the actual BuildConfig field name for the News API key, it might be different.
         // Assuming NEWS_API_KEY for now.
         // If BuildConfig.NEWS_API_KEY is not found, you might need to check your build.gradle configuration.
-        // For a quick fix, you could temporarily return the hardcoded key here, but configure BuildConfig properly later.
-        // Example temporary fix: return "4d08b910ef3d4751a1e80c8f889d7c57"
+
+        // Removed temporary workaround.
         return BuildConfig.NEWS_API_KEY
     }
 

@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import kotlinx.coroutines.launch
-import com.ethan.materialhub.ui.screens.weather.WeatherScreen
 import com.ethan.materialhub.ui.screens.news.NewsScreen
 import com.ethan.materialhub.ui.weather.WeatherViewModel
 import com.ethan.materialhub.ui.weather.WeatherUiState

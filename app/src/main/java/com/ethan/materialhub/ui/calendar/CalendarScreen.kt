@@ -626,7 +626,7 @@ private fun EditEventDialog(
 private fun TimePickerDialog(
     initialTime: Instant = Instant.now(),
     onDismiss: () -> Unit,
-    onTimeSelected: (hour: Int, minute: Int) -> Unit
+    onTimeSelected: (LocalTime) -> Unit
 ) {
     val initialLocalTime = initialTime.atZone(ZoneId.systemDefault()).toLocalTime()
     val timePickerState = rememberTimePickerState(
@@ -643,7 +643,7 @@ private fun TimePickerDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onTimeSelected(timePickerState.hour, timePickerState.minute)
+                    onTimeSelected(LocalTime.of(timePickerState.hour, timePickerState.minute))
                 }
             ) {
                 Text("OK")
@@ -655,8 +655,4 @@ private fun TimePickerDialog(
             }
         }
     )
-}
-
-private fun createLocalTime(hour: Int, minute: Int): LocalTime {
-    return LocalTime.of(hour, minute)
 } 

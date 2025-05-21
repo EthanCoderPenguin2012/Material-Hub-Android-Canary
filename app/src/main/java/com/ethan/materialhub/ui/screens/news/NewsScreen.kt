@@ -35,9 +35,10 @@ import androidx.core.net.toUri
 @Composable
 fun NewsScreen(
     viewModel: NewsViewModel = viewModel(
-        factory = NewsViewModelFactory(
-            NewsRepository("4d08b910ef3d4751a1e80c8f889d7c57") // TODO: Replace with actual API key
-        )
+        // Factory is no longer needed with Hilt
+        // factory = NewsViewModelFactory(
+        //     NewsRepository("4d08b910ef3d4751a1e80c8f889d7c57") // TODO: Replace with actual API key
+        // )
     )
 ) {
     val context = LocalContext.current
