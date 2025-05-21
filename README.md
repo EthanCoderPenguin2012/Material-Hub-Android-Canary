@@ -32,7 +32,7 @@ Material Hub aims to be your all-in-one Android productivity assistant. Here’s
 	•	📊 Analytics Dashboard (Planned) — View habits and productivity
 	•	🔒 Privacy-First — No unnecessary tracking
 
-👉 See the 📍 Roadmap for what’s next!
+👉 See the [Roadmap](.github/roadmap.md) for what’s next!
 
 ⸻
 
@@ -45,9 +45,9 @@ Coming soon! Stylish previews of UI in light/dark mode will be added.
 🚀 Getting Started
 
 🧰 Requirements
-	•	Android Studio Meerkat or newer
-	•	Java Development Kit (JDK) 21+
-	•	Git & a device/emulator (Android 8.0 Oreo+)
+	•Android Studio Meerkat or newer
+	•Java Development Kit (JDK) 21+
+	•Git & a device/emulator (Android 8.0 Oreo+)
 
 📦 Installation
 
@@ -59,15 +59,15 @@ Open the project in Android Studio, build, and run on your device/emulator. Done
 
 🛠️ Built With
 
-Technology	Purpose
-Kotlin	Core language
-Jetpack Compose	UI framework (Material 3)
-Retrofit	API networking
-Room	Local DB
-WorkManager	Background jobs
-Glide / Coil	Image loading
-Coroutines	Async support
-App Widgets API	Homescreen widget support
+|Technology | Purpose|
+|Kotlin | Core language|
+|Jetpack | Compose UI framework (Material 3)|
+|Retrofit | API networking|
+|Room | Local DB|
+|WorkManager | Background jobs|
+|Glide / Coil | Image loading|
+|Coroutines | Async support|
+|App Widgets | API Homescreen widget support|
 
 
 ⸻
