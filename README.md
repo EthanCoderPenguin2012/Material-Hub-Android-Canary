@@ -1,105 +1,104 @@
-# Material Hub Android Canary
 
-Material Hub is your all-in-one Android companion, helping you organize your day with integrated news, weather, to-do lists, and more—all in a beautiful Material Design 3 interface.
+# 🧪 Material Hub Android Canary
 
-> **Canary Notice:** This is a preview build. Features are experimental and may change. Stable releases are coming soon! See the [website](https://ethancoderpenguin2012.github.io/Material-Hub-Andriod-Canary/) for updates.
+[![GitHub Repo stars](https://img.shields.io/github/stars/EthanCoderPenguin2012/Material-Hub-Android-Canary?style=for-the-badge&color=blueviolet)](https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/EthanCoderPenguin2012/Material-Hub-Android-Canary?style=for-the-badge&color=lightblue)](https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary/network/members)
+[![Issues](https://img.shields.io/github/issues/EthanCoderPenguin2012/Material-Hub-Android-Canary?style=for-the-badge&color=yellow)](https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary/issues)
+[![MIT License](https://img.shields.io/github/license/EthanCoderPenguin2012/Material-Hub-Android-Canary?style=for-the-badge&color=brightgreen)](LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/EthanCoderPenguin2012/Material-Hub-Android-Canary/android.yml?style=for-the-badge&label=Build&logo=android)](https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary/actions)
+![Progress](https://img.shields.io/badge/Status-Broken-red?style=for-the-badge&logo=target&logoColor=white)
 
----
+⸻
 
-## ✨ Features
+🚨 Canary Notice:
+This is a preview build! Features are experimental and subject to change.
+🛠️ Stable releases are coming soon. Stay updated at the official site.
 
-The app is under active development. Planned and upcoming features include:
+⸻
 
-- **📰 News Updates:** Stay updated with the latest headlines tailored to your interests.
-- **🌦️ Weather Forecasts:** Get real-time, location-based weather updates.
-- **✅ To-Do List Management:** Organize, prioritize, and track your daily tasks.
-- **📅 Calendar Integration:** Sync tasks and events with your device calendar.
-- **🎨 Material Design 3 UI:** Enjoy a modern, responsive, and accessible interface.
-- **🌙 Dark Mode Support:** Seamlessly switch between light and dark themes.
-- **🎤 Voice Input:** Quickly add tasks using your voice.
-- **📡 Offline Mode:** Access cached news and weather even without internet.
-- **🧩 Widgets:** Add customizable home screen widgets for news, weather, and tasks.
-- **🔔 Notifications & Reminders:** Get timely alerts for tasks and events.
-- **📊 Analytics Dashboard:** Visualize your productivity and habits. *(Planned)*
-- **🔒 Privacy First:** No unnecessary data collection—your information stays on your device.
+✨ Features
 
-See the full [Roadmap](.github/roadmap.md) for detailed plans and progress.
+Material Hub aims to be your all-in-one Android productivity assistant. Here’s what’s available or in progress:
+	•	📰 News Updates — Real-time headlines tailored to your interests
+	•	🌦️ Weather Forecasts — Localized, real-time weather updates
+	•	✅ To-Do List — Organize, prioritize, and complete tasks
+	•	📅 Calendar Sync — Integrate with your system calendar
+	•	🎨 Material You UI (Material 3) — Sleek, responsive, and modern
+	•	🌙 Dark Mode — Auto or manual theme switching
+	•	🎤 Voice Input — Add tasks with your voice
+	•	📡 Offline Mode — Cached access to news/weather
+	•	🧩 Widgets — Add to-dos, weather, or headlines to your homescreen
+	•	🔔 Reminders — Smart notifications and event alerts
+	•	📊 Analytics Dashboard (Planned) — View habits and productivity
+	•	🔒 Privacy-First — No unnecessary tracking
 
----
+👉 See the 📍 Roadmap for what’s next!
 
-## 📸 Screenshots
+⸻
 
-> *Screenshots coming soon!*
+📸 Screenshots
 
----
+Coming soon! Stylish previews of UI in light/dark mode will be added.
 
-## 🧩 Widgets
+⸻
 
-Material Hub will offer a suite of home screen widgets for quick access to:
+🚀 Getting Started
 
-- **News Headlines:** Glance at the latest news right from your home screen.
-- **Weather:** See current conditions and forecasts at a glance.
-- **To-Do List:** View and check off tasks without opening the app.
-- **Calendar Events:** Upcoming events and reminders, always visible.
+🧰 Requirements
+	•	Android Studio Meerkat or newer
+	•	Java Development Kit (JDK) 21+
+	•	Git & a device/emulator (Android 8.0 Oreo+)
 
-Widgets will be customizable in size, theme, and content. *(Coming soon!)*
+📦 Installation
 
----
+git clone https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary.git
 
-## 🚀 Getting Started
+Open the project in Android Studio, build, and run on your device/emulator. Done!
 
-Set up and run Material Hub locally:
+⸻
 
-### Prerequisites
+🛠️ Built With
 
-- [Android Studio Meerkat](https://developer.android.com/studio) or higher
-- Java Development Kit (JDK) 21+
-- Android device or emulator (Android 8.0 Oreo+)
-- Git
+Technology	Purpose
+Kotlin	Core language
+Jetpack Compose	UI framework (Material 3)
+Retrofit	API networking
+Room	Local DB
+WorkManager	Background jobs
+Glide / Coil	Image loading
+Coroutines	Async support
+App Widgets API	Homescreen widget support
 
-### Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Dev.git
-   ```
-2. **Open the project** in Android Studio.
-3. **Build and run** the app on your emulator or device.
-4. **Explore** and share your feedback!
+⸻
 
----
+🤝 Contributing
 
-## 🛠️ Technologies Used
+Material Hub is in early development. Contributions will be opened soon. In the meantime:
+	•	File an issue 📮
+	•	Suggest features 🧠
+	•	Contact for iOS/cross-platform collaboration 🔁 → Email me
 
-- **Kotlin**
-- **Jetpack Compose** (Material 3)
-- **Android Jetpack Libraries**
-- **Retrofit** (networking)
-- **Room** (local storage)
-- **WorkManager** (background tasks)
-- **Glide/Coil** (image loading)
-- **Coroutines** (async programming)
-- **App Widgets API**
+⸻
 
----
+📜 License
 
-## 🤝 Contributing
+This project is licensed under the MIT License.
+Check the LICENSE file for details.
 
-Contributions are not yet open, but you can:
+⸻
 
-- Open issues for bugs or feature requests
-- Suggest improvements
-- Interested in iOS or cross-platform? [Contact me!](mailto:ethan.h.patmore@gmail.com)
+📬 Contact
 
----
+💡 Have ideas? Feedback? Want to collab?
 
-## 📄 License
+📧 ethan.h.patmore@gmail.com
+🐙 GitHub Profile
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+⸻
 
----
+🔗 Useful Links
+	•	🌐 Project Website
+	•	🧾 Changelog
+	•	🛣️ Roadmap
 
-## 📬 Contact
-
-Questions, suggestions, or feedback?  
-Open an issue or email: [ethan.h.patmore@gmail.com](mailto:ethan.h.patmore@gmail.com)
