@@ -1,6 +1,10 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 package com.ethan.materialhub.ui.calendar
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,11 +15,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ethan.materialhub.data.calendar.model.CalendarEvent
-import java.text.SimpleDateFormat
 import java.util.*
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -24,11 +29,17 @@ import androidx.compose.material3.TextButton
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.LocalTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.core.content.ContextCompat
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun CalendarScreen(
@@ -40,12 +51,61 @@ fun CalendarScreen(
     var showAddEventDialog by remember { mutableStateOf(false) }
     var eventToEdit by remember { mutableStateOf<CalendarEvent?>(null) }
 
+    val context = LocalContext.current
+    var hasCalendarPermissions by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+
+    val calendarPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        hasCalendarPermissions = permissions[Manifest.permission.READ_CALENDAR] == true &&
+                               permissions[Manifest.permission.WRITE_CALENDAR] == true
+        if (hasCalendarPermissions) {
+            // Refresh events if permissions are granted after denial
+            viewModel.setSelectedDate(viewModel.selectedDate.value)
+        } else {
+            // Handle case where permissions are still denied - maybe show a persistent message
+            viewModel.setUiStateError("Calendar permissions are required to view and manage events.")
+        }
+    }
+
+    // Request permissions when the screen is first displayed if not already granted
+    LaunchedEffect(Unit) {
+        if (!hasCalendarPermissions) {
+            calendarPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.READ_CALENDAR,
+                    Manifest.permission.WRITE_CALENDAR
+                )
+            )
+        } else {
+             // If permissions are already granted, trigger initial data load
+            viewModel.setSelectedDate(viewModel.selectedDate.value)
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Calendar") },
                 actions = {
-                    IconButton(onClick = { showAddEventDialog = true }) {
+                    IconButton(onClick = {
+                        if (hasCalendarPermissions) {
+                            showAddEventDialog = true
+                        } else {
+                            calendarPermissionLauncher.launch(
+                                arrayOf(
+                                    Manifest.permission.READ_CALENDAR,
+                                    Manifest.permission.WRITE_CALENDAR
+                                )
+                            )
+                            // TODO: Show a message to the user explaining why permissions are needed (e.g., a Snackbar)
+                        }
+                    }) {
                         Icon(Icons.Default.Add, contentDescription = "Add Event")
                     }
                 }
@@ -60,11 +120,38 @@ fun CalendarScreen(
             // Date selector
             DateSelector(
                 selectedDate = selectedDate,
-                onDateSelected = { viewModel.setSelectedDate(it) }
+                onDateSelected = { date ->
+                    if (hasCalendarPermissions) {
+                        viewModel.setSelectedDate(date)
+                    } else {
+                        calendarPermissionLauncher.launch(
+                            arrayOf(
+                                Manifest.permission.READ_CALENDAR,
+                                Manifest.permission.WRITE_CALENDAR
+                            )
+                        )
+                        // TODO: Show a message to the user explaining why permissions are needed
+                    }
+                }
             )
 
-            when (uiState) {
-                is CalendarUiState.Loading -> {
+            // Display content based on UI state and permissions
+            when {
+                 !hasCalendarPermissions -> {
+                     Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Calendar permissions are required to view and manage events.",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.error,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
+                 }
+                uiState is CalendarUiState.Loading -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
@@ -72,8 +159,21 @@ fun CalendarScreen(
                         CircularProgressIndicator()
                     }
                 }
-                is CalendarUiState.Success -> {
-                    if (events.isEmpty()) {
+                uiState is CalendarUiState.Error -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = (uiState as CalendarUiState.Error).message,
+                            color = MaterialTheme.colorScheme.error,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
+                }
+                uiState is CalendarUiState.Success -> {
+                     if (events.isEmpty()) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
@@ -99,17 +199,6 @@ fun CalendarScreen(
                         }
                     }
                 }
-                is CalendarUiState.Error -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = (uiState as CalendarUiState.Error).message,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                    }
-                }
             }
         }
     }
@@ -118,7 +207,17 @@ fun CalendarScreen(
         AddEventDialog(
             onDismiss = { showAddEventDialog = false },
             onEventAdded = { event ->
-                viewModel.addEvent(event)
+                if (hasCalendarPermissions) {
+                    viewModel.addEvent(event)
+                } else {
+                     calendarPermissionLauncher.launch(
+                        arrayOf(
+                            Manifest.permission.READ_CALENDAR,
+                            Manifest.permission.WRITE_CALENDAR
+                        )
+                    )
+                    // TODO: Show a message
+                }
                 showAddEventDialog = false
             }
         )
@@ -129,7 +228,17 @@ fun CalendarScreen(
             event = event,
             onDismiss = { eventToEdit = null },
             onEventUpdated = { updatedEvent ->
-                viewModel.updateEvent(updatedEvent)
+                if (hasCalendarPermissions) {
+                    viewModel.updateEvent(updatedEvent)
+                } else {
+                     calendarPermissionLauncher.launch(
+                        arrayOf(
+                            Manifest.permission.READ_CALENDAR,
+                            Manifest.permission.WRITE_CALENDAR
+                        )
+                    )
+                    // TODO: Show a message
+                }
                 eventToEdit = null
             }
         )
@@ -138,12 +247,11 @@ fun CalendarScreen(
 
 @Composable
 private fun DateSelector(
-    selectedDate: Date,
-    onDateSelected: (Date) -> Unit
+    selectedDate: Instant,
+    onDateSelected: (Instant) -> Unit
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
-    val dateFormat = remember { SimpleDateFormat("MMMM d, yyyy", Locale.getDefault()) }
-    val calendar = remember { Calendar.getInstance() }
+    val dateFormat = remember { DateTimeFormatter.ofPattern("MMMM d, yyyy") }
 
     Row(
         modifier = Modifier
@@ -153,23 +261,19 @@ private fun DateSelector(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = {
-            calendar.time = selectedDate
-            calendar.add(Calendar.DAY_OF_MONTH, -1)
-            onDateSelected(calendar.time)
+             onDateSelected(selectedDate.minus(1, ChronoUnit.DAYS))
         }) {
             Icon(Icons.Default.ChevronLeft, contentDescription = "Previous Day")
         }
 
         Text(
-            text = dateFormat.format(selectedDate),
+            text = dateFormat.format(selectedDate.atZone(ZoneId.systemDefault())),
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.clickable { showDatePicker = true }
         )
 
         IconButton(onClick = {
-            calendar.time = selectedDate
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-            onDateSelected(calendar.time)
+             onDateSelected(selectedDate.plus(1, ChronoUnit.DAYS))
         }) {
             Icon(Icons.Default.ChevronRight, contentDescription = "Next Day")
         }
@@ -177,16 +281,16 @@ private fun DateSelector(
 
     if (showDatePicker) {
         val datePickerState = rememberDatePickerState(
-            initialSelectedDateMillis = selectedDate.time
+            initialSelectedDateMillis = selectedDate.toEpochMilli()
         )
-        
+
         DatePickerDialog(
             onDismissRequest = { showDatePicker = false },
             confirmButton = {
                 TextButton(
                     onClick = {
                         datePickerState.selectedDateMillis?.let { millis ->
-                            onDateSelected(Date(millis))
+                            onDateSelected(Instant.ofEpochMilli(millis))
                         }
                         showDatePicker = false
                     }
@@ -211,7 +315,7 @@ private fun EventCard(
     onEdit: () -> Unit,
     onDelete: () -> Unit
 ) {
-    val timeFormat = remember { SimpleDateFormat("HH:mm", Locale.getDefault()) }
+    val timeFormat = remember { DateTimeFormatter.ofPattern("HH:mm") }
 
     Card(
         modifier = Modifier.fillMaxWidth()
@@ -241,7 +345,7 @@ private fun EventCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "${timeFormat.format(event.startTime)} - ${timeFormat.format(event.endTime)}",
+                text = "${timeFormat.format(event.startTime.atZone(ZoneId.systemDefault()))} - ${timeFormat.format(event.endTime.atZone(ZoneId.systemDefault()))}",
                 style = MaterialTheme.typography.bodyMedium
             )
 
@@ -284,13 +388,12 @@ private fun AddEventDialog(
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
-    var startTime by remember { mutableStateOf(Date()) }
-    var endTime by remember { mutableStateOf(Date()) }
+    var startTime by remember { mutableStateOf(Instant.now().truncatedTo(ChronoUnit.MINUTES)) }
+    var endTime by remember { mutableStateOf(Instant.now().truncatedTo(ChronoUnit.MINUTES).plus(1, ChronoUnit.HOURS)) }
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
 
-    val timeFormat = remember { SimpleDateFormat("HH:mm", Locale.getDefault()) }
-    val calendar = remember { Calendar.getInstance() }
+    val timeFormat = remember { DateTimeFormatter.ofPattern("HH:mm") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -324,7 +427,6 @@ private fun AddEventDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                // Time selection
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -333,14 +435,14 @@ private fun AddEventDialog(
                         onClick = { showStartTimePicker = true },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("Start: ${timeFormat.format(startTime)}")
+                        Text("Start: ${timeFormat.format(startTime.atZone(ZoneId.systemDefault()))}")
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     OutlinedButton(
                         onClick = { showEndTimePicker = true },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("End: ${timeFormat.format(endTime)}")
+                        Text("End: ${timeFormat.format(endTime.atZone(ZoneId.systemDefault()))}")
                     }
                 }
             }
@@ -348,7 +450,7 @@ private fun AddEventDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    if (title.isNotBlank() && endTime.after(startTime)) {
+                    if (title.isNotBlank() && endTime.isAfter(startTime)) {
                         onEventAdded(
                             CalendarEvent(
                                 title = title,
@@ -356,7 +458,7 @@ private fun AddEventDialog(
                                 startTime = startTime,
                                 endTime = endTime,
                                 location = location.takeIf { it.isNotBlank() },
-                                calendarId = 1 // TODO: Get default calendar ID
+                                calendarId = 1 // TODO: Get default calendar ID or allow user selection
                             )
                         )
                     }
@@ -374,12 +476,12 @@ private fun AddEventDialog(
 
     if (showStartTimePicker) {
         TimePickerDialog(
+            initialTime = startTime,
             onDismiss = { showStartTimePicker = false },
-            onTimeSelected = { hour, minute ->
-                calendar.time = startTime
-                calendar.set(Calendar.HOUR_OF_DAY, hour)
-                calendar.set(Calendar.MINUTE, minute)
-                startTime = calendar.time
+            onTimeSelected = { selectedLocalTime ->
+                val today = LocalDate.now()
+                val selectedZonedTime = selectedLocalTime.atDate(today).atZone(ZoneId.systemDefault())
+                startTime = selectedZonedTime.toInstant()
                 showStartTimePicker = false
             }
         )
@@ -387,12 +489,12 @@ private fun AddEventDialog(
 
     if (showEndTimePicker) {
         TimePickerDialog(
+            initialTime = endTime,
             onDismiss = { showEndTimePicker = false },
-            onTimeSelected = { hour, minute ->
-                calendar.time = endTime
-                calendar.set(Calendar.HOUR_OF_DAY, hour)
-                calendar.set(Calendar.MINUTE, minute)
-                endTime = calendar.time
+            onTimeSelected = { selectedLocalTime ->
+                val today = LocalDate.now()
+                val selectedZonedTime = selectedLocalTime.atDate(today).atZone(ZoneId.systemDefault())
+                endTime = selectedZonedTime.toInstant()
                 showEndTimePicker = false
             }
         )
@@ -413,8 +515,7 @@ private fun EditEventDialog(
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
 
-    val timeFormat = remember { SimpleDateFormat("HH:mm", Locale.getDefault()) }
-    val calendar = remember { Calendar.getInstance() }
+    val timeFormat = remember { DateTimeFormatter.ofPattern("HH:mm") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -456,14 +557,14 @@ private fun EditEventDialog(
                         onClick = { showStartTimePicker = true },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("Start: ${timeFormat.format(startTime)}")
+                        Text("Start: ${timeFormat.format(startTime.atZone(ZoneId.systemDefault()))}")
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     OutlinedButton(
                         onClick = { showEndTimePicker = true },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("End: ${timeFormat.format(endTime)}")
+                        Text("End: ${timeFormat.format(endTime.atZone(ZoneId.systemDefault()))}")
                     }
                 }
             }
@@ -471,7 +572,7 @@ private fun EditEventDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    if (title.isNotBlank() && endTime.after(startTime)) {
+                    if (title.isNotBlank() && endTime.isAfter(startTime)) {
                         onEventUpdated(
                             event.copy(
                                 title = title,
@@ -496,12 +597,12 @@ private fun EditEventDialog(
 
     if (showStartTimePicker) {
         TimePickerDialog(
+            initialTime = startTime,
             onDismiss = { showStartTimePicker = false },
-            onTimeSelected = { hour, minute ->
-                calendar.time = startTime
-                calendar.set(Calendar.HOUR_OF_DAY, hour)
-                calendar.set(Calendar.MINUTE, minute)
-                startTime = calendar.time
+            onTimeSelected = { selectedLocalTime ->
+                val eventDate = event.startTime.atZone(ZoneId.systemDefault()).toLocalDate()
+                val selectedZonedTime = selectedLocalTime.atDate(eventDate).atZone(ZoneId.systemDefault())
+                startTime = selectedZonedTime.toInstant()
                 showStartTimePicker = false
             }
         )
@@ -509,12 +610,12 @@ private fun EditEventDialog(
 
     if (showEndTimePicker) {
         TimePickerDialog(
+            initialTime = endTime,
             onDismiss = { showEndTimePicker = false },
-            onTimeSelected = { hour, minute ->
-                calendar.time = endTime
-                calendar.set(Calendar.HOUR_OF_DAY, hour)
-                calendar.set(Calendar.MINUTE, minute)
-                endTime = calendar.time
+            onTimeSelected = { selectedLocalTime ->
+                val eventDate = event.endTime.atZone(ZoneId.systemDefault()).toLocalDate()
+                val selectedZonedTime = selectedLocalTime.atDate(eventDate).atZone(ZoneId.systemDefault())
+                endTime = selectedZonedTime.toInstant()
                 showEndTimePicker = false
             }
         )
@@ -523,10 +624,15 @@ private fun EditEventDialog(
 
 @Composable
 private fun TimePickerDialog(
+    initialTime: Instant = Instant.now(),
     onDismiss: () -> Unit,
     onTimeSelected: (hour: Int, minute: Int) -> Unit
 ) {
-    val timePickerState = rememberTimePickerState()
+    val initialLocalTime = initialTime.atZone(ZoneId.systemDefault()).toLocalTime()
+    val timePickerState = rememberTimePickerState(
+        initialHour = initialLocalTime.hour,
+        initialMinute = initialLocalTime.minute
+    )
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -549,4 +655,8 @@ private fun TimePickerDialog(
             }
         }
     )
+}
+
+private fun createLocalTime(hour: Int, minute: Int): LocalTime {
+    return LocalTime.of(hour, minute)
 } 

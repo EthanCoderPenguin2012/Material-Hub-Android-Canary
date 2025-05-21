@@ -9,14 +9,18 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
+import java.time.Instant
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
     private val calendarRepository: CalendarRepository
 ) : ViewModel() {
 
-    private val _selectedDate = MutableStateFlow(Date())
-    val selectedDate: StateFlow<Date> = _selectedDate
+    // Use Instant for selected date for better time zone handling
+    private val _selectedDate = MutableStateFlow(Instant.now().truncatedTo(ChronoUnit.DAYS))
+    val selectedDate: StateFlow<Instant> = _selectedDate
 
     private val _events = MutableStateFlow<List<CalendarEvent>>(emptyList())
     val events: StateFlow<List<CalendarEvent>> = _events
@@ -24,25 +28,25 @@ class CalendarViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<CalendarUiState>(CalendarUiState.Loading)
     val uiState: StateFlow<CalendarUiState> = _uiState
 
+    private val _defaultCalendarId = MutableStateFlow<Long?>(null)
+    val defaultCalendarId: StateFlow<Long?> = _defaultCalendarId
+
     init {
         viewModelScope.launch {
+            // Fetch default calendar ID first
+            fetchDefaultCalendarId()
+
             _selectedDate
                 .map { date ->
-                    val calendar = Calendar.getInstance().apply {
-                        time = date
-                        set(Calendar.HOUR_OF_DAY, 0)
-                        set(Calendar.MINUTE, 0)
-                        set(Calendar.SECOND, 0)
-                        set(Calendar.MILLISECOND, 0)
-                    }
-                    val startTime = calendar.timeInMillis
-                    calendar.add(Calendar.DAY_OF_MONTH, 1)
-                    val endTime = calendar.timeInMillis
-                    Pair(startTime, endTime)
+                    // Calculate start and end time (midnight to midnight) in milliseconds for the selected day
+                    val startOfDayMillis = date.toEpochMilli()
+                    val endOfDayMillis = date.plus(1, ChronoUnit.DAYS).minusMillis(1).toEpochMilli()
+                    Pair(startOfDayMillis, endOfDayMillis)
                 }
                 .flatMapLatest { (startTime, endTime) ->
-                    calendarRepository.getEvents(startTime, endTime)
-                }
+                    // Only fetch events if a calendar ID is available and permissions are handled in the repository
+                    _defaultCalendarId.filterNotNull().flatMapLatest { calendarRepository.getEvents(startTime, endTime) }
+                 }
                 .catch { e ->
                     _uiState.value = CalendarUiState.Error(e.message ?: "Unknown error occurred")
                 }
@@ -53,14 +57,41 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedDate(date: Date) {
-        _selectedDate.value = date
+    private fun fetchDefaultCalendarId() {
+        viewModelScope.launch {
+            try {
+                _defaultCalendarId.value = calendarRepository.getDefaultCalendarId()
+                if (_defaultCalendarId.value == null) {
+                    _uiState.value = CalendarUiState.Error("Could not find a default calendar. Please add one on your device.")
+                }
+            } catch (e: SecurityException) {
+                 _uiState.value = CalendarUiState.Error("Calendar permissions are required to find a calendar.")
+            } catch (e: Exception) {
+                _uiState.value = CalendarUiState.Error(e.message ?: "Failed to get default calendar ID")
+            }
+        }
+    }
+
+
+    fun setSelectedDate(date: Date) { // Keep this for now for compatibility with DatePicker which might return Date
+        // Convert Date to Instant and truncate to the start of the day
+        _selectedDate.value = date.toInstant().truncatedTo(ChronoUnit.DAYS)
+    }
+    
+    fun setSelectedDate(date: Instant) { // Overload for setting date with Instant
+        _selectedDate.value = date.truncatedTo(ChronoUnit.DAYS)
     }
 
     fun addEvent(event: CalendarEvent) {
+         if (_defaultCalendarId.value == null) {
+             _uiState.value = CalendarUiState.Error("Cannot add event: No calendar selected or found.")
+             return
+         }
+
         viewModelScope.launch {
             try {
-                calendarRepository.addEvent(event)
+                // Use the fetched default calendar ID
+                calendarRepository.addEvent(event.copy(calendarId = _defaultCalendarId.value!!))
                 // Events will be refreshed automatically through the flow
             } catch (e: Exception) {
                 _uiState.value = CalendarUiState.Error(e.message ?: "Failed to add event")
@@ -88,6 +119,10 @@ class CalendarViewModel @Inject constructor(
                 _uiState.value = CalendarUiState.Error(e.message ?: "Failed to delete event")
             }
         }
+    }
+
+     fun setUiStateError(message: String) {
+        _uiState.value = CalendarUiState.Error(message)
     }
 }
 

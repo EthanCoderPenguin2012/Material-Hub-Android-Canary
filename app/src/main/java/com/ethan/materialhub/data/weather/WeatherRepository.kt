@@ -18,9 +18,10 @@ sealed class WeatherError : Exception() {
 
 @Singleton
 class WeatherRepository @Inject constructor(
-    private val weatherApi: WeatherApi
+    private val weatherApi: WeatherApi,
+    private val apiKey: String
 ) {
-    fun getWeatherData(latitude: Double, longitude: Double, apiKey: String): Flow<WeatherResponse> = flow {
+    fun getWeatherData(latitude: Double, longitude: Double): Flow<WeatherResponse> = flow {
         try {
             if (latitude == 0.0 && longitude == 0.0) {
                 throw WeatherError.LocationError("Invalid location coordinates")
@@ -39,7 +40,7 @@ class WeatherRepository @Inject constructor(
         }
     }
 
-    fun getForecastData(latitude: Double, longitude: Double, apiKey: String, days: Int = 5): Flow<com.ethan.materialhub.data.weather.model.ForecastResponse> = flow {
+    fun getForecastData(latitude: Double, longitude: Double, days: Int = 5): Flow<com.ethan.materialhub.data.weather.model.ForecastResponse> = flow {
         try {
             if (latitude == 0.0 && longitude == 0.0) {
                 throw WeatherError.LocationError("Invalid location coordinates")

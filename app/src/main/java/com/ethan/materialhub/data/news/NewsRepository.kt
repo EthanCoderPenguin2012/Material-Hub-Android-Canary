@@ -6,9 +6,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import javax.inject.Inject
+import javax.inject.Singleton
 import java.util.concurrent.TimeUnit
 
-class NewsRepository(private val apiKey: String) {
+@Singleton
+class NewsRepository @Inject constructor(private val apiKey: String) {
     private val newsApi: NewsApi by lazy {
         val logging = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
