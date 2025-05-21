@@ -1,70 +1,95 @@
 # Material Hub Android Canary
 
-Material Hub is an all-in-one Android app designed to help you organize your day with integrated news, weather, and to-do list features—all wrapped in a modern Material Design 3 interface.
+Material Hub is your all-in-one Android companion, helping you organize your day with integrated news, weather, to-do lists, and more—all in a beautiful Material Design 3 interface.
 
-> **Update**: The app has functions and sort of works, but it currently crashes as soon as you open it. I am working on a fix!
-> **Update 2**: The fix is taking longer than normal. I have now deployed an AI to fix it. Sorry for the wait!
+> **Canary Notice:** This is a preview build. Features are experimental and may change. Stable releases are coming soon! See the [website](https://ethancoderpenguin2012.github.io/Material-Hub-Andriod-Canary/) for updates.
+
 ---
 
-## ✨ Features 
+## ✨ Features
 
-Currently, the app is broken, but when I fix it it will have:
-- **News Updates:** Stay updated with the latest headlines.
-- **Weather Forecasts:** Get real-time weather updates.
-- **To-Do List Management:** Organize your tasks efficiently.
-- **Material Design 3 Expressive UI:** A modern and responsive design, with smooth, clean, and *expressive* animations.
-- **Dark Mode Support:** Switch between light and dark themes.
-- **Calendar Integration:** Sync tasks with your calendar.
-And coming soon:
-- **Voice Input:** Create tasks using voice commands.
-- **Offline Mode:** Access cached news and weather data.
-- **Widgets:** Quick access to tasks and updates from your home screen.
-To see the full roadmap, check out the [Roadmap](.github/roadmap.md) file.
+The app is under active development. Planned and upcoming features include:
+
+- **📰 News Updates:** Stay updated with the latest headlines tailored to your interests.
+- **🌦️ Weather Forecasts:** Get real-time, location-based weather updates.
+- **✅ To-Do List Management:** Organize, prioritize, and track your daily tasks.
+- **📅 Calendar Integration:** Sync tasks and events with your device calendar.
+- **🎨 Material Design 3 UI:** Enjoy a modern, responsive, and accessible interface.
+- **🌙 Dark Mode Support:** Seamlessly switch between light and dark themes.
+- **🎤 Voice Input:** Quickly add tasks using your voice.
+- **📡 Offline Mode:** Access cached news and weather even without internet.
+- **🧩 Widgets:** Add customizable home screen widgets for news, weather, and tasks.
+- **🔔 Notifications & Reminders:** Get timely alerts for tasks and events.
+- **📊 Analytics Dashboard:** Visualize your productivity and habits. *(Planned)*
+- **🔒 Privacy First:** No unnecessary data collection—your information stays on your device.
+
+See the full [Roadmap](.github/roadmap.md) for detailed plans and progress.
+
 ---
 
 ## 📸 Screenshots
 
-*Screenshots coming soon!*
+> *Screenshots coming soon!*
+
+---
+
+## 🧩 Widgets
+
+Material Hub will offer a suite of home screen widgets for quick access to:
+
+- **News Headlines:** Glance at the latest news right from your home screen.
+- **Weather:** See current conditions and forecasts at a glance.
+- **To-Do List:** View and check off tasks without opening the app.
+- **Calendar Events:** Upcoming events and reminders, always visible.
+
+Widgets will be customizable in size, theme, and content. *(Coming soon!)*
 
 ---
 
 ## 🚀 Getting Started
 
-Follow these steps to set up and run the Material Hub app locally:
+Set up and run Material Hub locally:
 
 ### Prerequisites
 
 - [Android Studio Meerkat](https://developer.android.com/studio) or higher
-- Java Development Kit (JDK) 21 or higher
-- Android device or emulator running Android 8.0 (Oreo) or higher
+- Java Development Kit (JDK) 21+
+- Android device or emulator (Android 8.0 Oreo+)
 - Git
 
 ### Installation
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary.git
+   git clone https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Dev.git
    ```
 2. **Open the project** in Android Studio.
-3. **Build and run** the app on your emulator or physical device.
-4. **Explore** the features and provide feedback!
+3. **Build and run** the app on your emulator or device.
+4. **Explore** and share your feedback!
 
 ---
 
 ## 🛠️ Technologies Used
 
-- Kotlin
-- Android Jetpack Libraries
-- Material Design 3 Expressive
-- Retrofit (for networking)
-- Room (for local data)
-
+- **Kotlin**
+- **Jetpack Compose** (Material 3)
+- **Android Jetpack Libraries**
+- **Retrofit** (networking)
+- **Room** (local storage)
+- **WorkManager** (background tasks)
+- **Glide/Coil** (image loading)
+- **Coroutines** (async programming)
+- **App Widgets API**
 
 ---
 
 ## 🤝 Contributing
 
-Currently, contributions are not accepted. However, you are welcome to open issues for bugs or feature requests. Suggestions and improvements are appreciated! Interested in helping port the app to iOS? Please contact us [here](mailto:ethan.h.patmore@gmail.com), or make a pull request.
+Contributions are not yet open, but you can:
+
+- Open issues for bugs or feature requests
+- Suggest improvements
+- Interested in iOS or cross-platform? [Contact me!](mailto:ethan.h.patmore@gmail.com)
 
 ---
 
@@ -76,4 +101,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## 📬 Contact
 
-For questions, suggestions, or feedback, please open an issue or contact me via [email](mailto:ethan.h.patmore@gmail.com).
+Questions, suggestions, or feedback?  
+Open an issue or email: [ethan.h.patmore@gmail.com](mailto:ethan.h.patmore@gmail.com)
