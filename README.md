@@ -19,18 +19,18 @@ This is a preview build! Features are experimental and subject to change.
 ✨ Features
 
 Material Hub aims to be your all-in-one Android productivity assistant. Here’s what’s available or in progress:
-	•	📰 News Updates — Real-time headlines tailored to your interests
-	•	🌦️ Weather Forecasts — Localized, real-time weather updates
-	•	✅ To-Do List — Organize, prioritize, and complete tasks
-	•	📅 Calendar Sync — Integrate with your system calendar
-	•	🎨 Material You UI (Material 3) — Sleek, responsive, and modern
-	•	🌙 Dark Mode — Auto or manual theme switching
-	•	🎤 Voice Input — Add tasks with your voice
-	•	📡 Offline Mode — Cached access to news/weather
-	•	🧩 Widgets — Add to-dos, weather, or headlines to your homescreen
-	•	🔔 Reminders — Smart notifications and event alerts
-	•	📊 Analytics Dashboard (Planned) — View habits and productivity
-	•	🔒 Privacy-First — No unnecessary tracking
+📰 News Updates — Real-time headlines tailored to your interests
+🌦️ Weather Forecasts — Localized, real-time weather updates
+✅ To-Do List — Organize, prioritize, and complete tasks
+📅 Calendar Sync — Integrate with your system calendar
+🎨 Material You UI (Material 3) — Sleek, responsive, and modern
+🌙 Dark Mode — Auto or manual theme switching
+🎤 Voice Input — Add tasks with your voice
+📡 Offline Mode — Cached access to news/weather
+🧩 Widgets — Add to-dos, weather, or headlines to your homescreen
+🔔 Reminders — Smart notifications and event alerts
+📊 Analytics Dashboard (Planned) — View habits and productivity
+🔒 Privacy-First — No unnecessary tracking
 
 👉 See the [Roadmap](.github/roadmap.md) for what’s next!
 
@@ -59,15 +59,24 @@ Open the project in Android Studio, build, and run on your device/emulator. Done
 
 🛠️ Built With
 
-|Technology | Purpose|
-|Kotlin | Core language|
-|Jetpack | Compose UI framework (Material 3)|
-|Retrofit | API networking|
-|Room | Local DB|
-|WorkManager | Background jobs|
-|Glide / Coil | Image loading|
-|Coroutines | Async support|
-|App Widgets | API Homescreen widget support|
+|Technology | Purpose                          |
+|-----------|----------------------------------|
+|Kotlin     | Core language                    |
+|-----------|----------------------------------|
+|Jetpack    | Compose UI framework (Material 3)|
+|-----------|----------------------------------|
+|Retrofit   | API networking                   |
+|-----------|----------------------------------|
+|Room       | Local DB                         |
+|-----------|----------------------------------|
+|WorkManager| Background jobs                  |
+|-----------|----------------------------------|
+|Glide/Coil | Image loading                    |
+|-----------|----------------------------------|
+|Coroutines | Async support                    |
+|-----------|----------------------------------|
+|App Widgets| API Homescreen widget support    |
+------------------------------------------------
 
 
 ⸻
