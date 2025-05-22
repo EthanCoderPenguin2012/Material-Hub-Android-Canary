@@ -29,7 +29,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Get Ready
+      - name: Update
         uses: actions/checkout@v4
       - name: Prepare for Upload
         uses: actions/configure-pages@v5
@@ -41,9 +41,4 @@ jobs:
       - name: Update Website
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Check Status
-        run: echo -e "Checking files... /nAll files updated. /nProceeding.."
-      - name: Finishing Up...
-        run: echo -e "Closing..."
-      - name: Done
-        run: echo "Done."
+      
