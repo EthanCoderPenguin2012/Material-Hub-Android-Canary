@@ -10,6 +10,9 @@
 
 ⸻
 > Update: You might be wondering why I just added a react app. This is how I plan to run the website for this project. This is so I can give it a more modern look and feel and use the Material UI library.
+
+
+> Update 2: I have decided to temporarily remove the react app. I will be adding it back in the future. I will soon add back the html site for now.
 ---
 
 

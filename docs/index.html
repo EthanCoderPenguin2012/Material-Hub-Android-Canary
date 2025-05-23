@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Hub - Your Material 3 Android App</title>
+    <!-- Google Fonts for Material 3 inspired typography: Comfortaa (expressive headings), Noto Sans & Roboto (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons (e.g., GitHub, Google Play, Theme Toggle) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Variables for Material 3 Inspired Color Palette (Light Mode - Default) */
+        :root {
+            /* Primary Colors - derived from #e9b7eb */
+            --md-sys-color-primary: #e9b7eb;
+            --md-sys-color-on-primary: #000000; /* Black for contrast */
+            --md-sys-color-primary-container: #FFD8EB;
+            --md-sys-color-on-primary-container: #49004B;
+
+            /* Secondary Colors - derived for harmony */
+            --md-sys-color-secondary: #8C518A;
+            --md-sys-color-on-secondary: #FFFFFF;
+            --md-sys-color-secondary-container: #FFD7F7;
+            --md-sys-color-on-secondary-container: #3B003C;
+
+            /* Tertiary Colors - derived for harmony */
+            --md-sys-color-tertiary: #9B416D;
+            --md-sys-color-on-tertiary: #FFFFFF;
+            --md-sys-color-tertiary-container: #FFD8F7;
+            --md-sys-color-on-tertiary-container: #400021;
+
+            /* Error Colors (Standard M3) */
+            --md-sys-color-error: #B3261E;
+            --md-sys-color-on-error: #FFFFFF;
+            --md-sys-color-error-container: #F2B8B5;
+            --md-sys-color-on-error-container: #410E0B;
+
+            /* Neutral Colors (Background, Surface, Outline, etc. - Standard M3 Light) */
+            --md-sys-color-background: #FFFBFE;
+            --md-sys-color-on-background: #1C1B1F;
+            --md-sys-color-surface: #FFFBFE;
+            --md-sys-color-on-surface: #1C1B1F;
+            --md-sys-color-surface-variant: #F3EDF7;
+            --md-sys-color-on-surface-variant: #49454F;
+            --md-sys-color-outline: #79747E;
+            --md-sys-color-shadow: #000000;
+        }
+
+        /* CSS Variables for Material 3 Inspired Color Palette (Dark Mode - derived from #801bab) */
+        html.dark-mode {
+            /* Primary Colors */
+            --md-sys-color-primary: #801bab;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #BF7ED7;
+            --md-sys-color-on-primary-container: #000000;
+
+            /* Secondary Colors */
+            --md-sys-color-secondary: #B29BBD;
+            --md-sys-color-on-secondary: #FFFFFF;
+            --md-sys-color-secondary-container: #4A3C4D;
+            --md-sys-color-on-secondary-container: #E8DEF8;
+
+            /* Tertiary Colors */
+            --md-sys-color-tertiary: #CB8197;
+            --md-sys-color-on-tertiary: #FFFFFF;
+            --md-sys-color-tertiary-container: #5E3D48;
+            --md-sys-color-on-tertiary-container: #FFD8E4;
+
+            /* Error Colors (Standard M3 Dark) */
+            --md-sys-color-error: #F2B8B5;
+            --md-sys-color-on-error: #601410;
+            --md-sys-color-error-container: #8C1D18;
+            --md-sys-color-on-error-container: #F2B8B5;
+
+            /* Neutral Colors (Background, Surface, Outline, etc. - Standard M3 Dark) */
+            --md-sys-color-background: #1C1B1F;
+            --md-sys-color-on-background: #E6E1E5;
+            --md-sys-color-surface: #1C1B1F;
+            --md-sys-color-on-surface: #E6E1E5;
+            --md-sys-color-surface-variant: #49454F;
+            --md-sys-color-on-surface-variant: #CAC4D0;
+            --md-sys-color-outline: #938F99;
+            --md-sys-color-shadow: #000000;
+        }
+
+        /* Base Styles & Typography */
+        body {
+            font-family: 'Roboto', 'Noto Sans', sans-serif; /* Body text */
+            margin: 0;
+            padding: 0;
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth mode transition */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Comfortaa', cursive; /* Expressive font for headings */
+            color: var(--md-sys-color-on-surface);
+            margin-top: 0;
+            line-height: 1.2;
+            font-weight: 700; /* Default strong headings */
+            transition: color 0.3s ease; /* Smooth mode transition */
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem); /* Responsive font size */
+            letter-spacing: -1px;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        p {
+            font-size: 1.1rem; /* Slightly larger body text for readability */
+            line-height: 1.8;
+            max-width: 800px; /* Constrain paragraph width for better reading experience */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        a {
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+        }
+
+        a:hover {
+            color: var(--md-sys-color-primary-container);
+            transform: translateY(-2px); /* Subtle lift on links */
+        }
+
+        section {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1; /* Ensure content is above any background shapes */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Material 3 Inspired Button Style */
+        .md-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 28px; /* Fully rounded corners for expressive buttons */
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+            text-transform: none; /* Material 3 buttons often don't uppercase */
+        }
+
+        .md-button.primary {
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        .md-button.primary:hover {
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            transform: translateY(-2px); /* Subtle lift effect */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* More prominent shadow on hover */
+        }
+
+        .md-button.secondary {
+            background-color: var(--md-sys-color-secondary);
+            color: var(--md-sys-color-on-secondary);
+        }
+
+        .md-button.secondary:hover {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hero Section */
+        #hero {
+            background: linear-gradient(135deg, var(--md-sys-color-primary-container) 0%, var(--md-sys-color-tertiary-container) 100%);
+            color: var(--md-sys-color-on-primary-container);
+            padding: 120px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+            position: relative;
+            overflow: hidden; /* Crucial for containing floating shapes */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            transition: background 0.3s ease, color 0.3s ease; /* Smooth mode transition */
+        }
+
+        #hero h1 {
+            margin-bottom: 20px;
+            color: var(--md-sys-color-on-primary-container); /* Inherit color from hero section */
+        }
+
+        #hero p {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            margin-bottom: 40px;
+            max-width: 800px;
+            color: var(--md-sys-color-on-primary-container);
+        }
+
+        #hero .buttons-group {
+            display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+            justify-content: center;
+            gap: 20px; /* Space between buttons */
+            margin-top: 20px;
+        }
+
+        /* Expressive shapes for Hero background */
+        #hero::before, #hero::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%; /* Circular shapes */
+            opacity: 0.6;
+            animation: floatShape 10s infinite ease-in-out alternate;
+            z-index: 0; /* Behind content */
+        }
+
+        #hero::before {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: -5%;
+            transform: rotate(45deg);
+        }
+
+        #hero::after {
+            width: 400px;
+            height: 400px;
+            bottom: 5%;
+            right: -10%;
+            transform: rotate(-30deg);
+            animation-delay: 2s; /* Stagger animation */
+        }
+
+        @keyframes floatShape {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.6; }
+            50% { transform: translate(20px, 30px) rotate(10deg); opacity: 0.8; }
+            100% { transform: translate(0, 0) rotate(0deg); opacity: 0.6; }
+        }
+
+        /* Features Section */
+        #features {
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #features h2 {
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--md-sys-color-surface-variant);
+            padding: 30px;
+            border-radius: 24px; /* Slightly rounded corners for cards */
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: 100%; /* Ensure all cards in a row have same height */
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px); /* Lift effect on hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card .icon {
+            font-size: 3rem;
+            color: var(--md-sys-color-primary);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+            color: inherit; /* Inherit from feature-card for mode transition */
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: inherit; /* Inherit from feature-card for mode transition */
+            margin: 0; /* Remove default paragraph margin */
+        }
+
+        /* Showcase Section */
+        #showcase {
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            padding: 80px 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #showcase h2 {
+            margin-bottom: 60px;
+        }
+
+        .app-screenshot {
+            max-width: 700px;
+            width: 100%;
+            height: auto;
+            border-radius: 36px; /* Expressive, larger border-radius for image */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+            transition: transform 0.5s ease;
+        }
+        .app-screenshot:hover {
+            transform: scale(1.02); /* Subtle zoom on hover */
+        }
+
+        /* About Section */
+        #about {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            text-align: center; /* Center content of about section */
+            padding: 80px 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        #about h2 {
+            margin-bottom: 40px;
+        }
+        #about p {
+            margin-bottom: 20px; /* Space between paragraphs */
+        }
+        #about p:last-child {
+            margin-bottom: 0; /* No margin after last paragraph */
+        }
+
+        /* Call to Action Section */
+        #cta {
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            padding: 100px 20px;
+            text-align: center;
+            /* Expressive shape for the section - using clip-path */
+            clip-path: polygon(0 10%, 100% 0, 100% 90%, 0% 100%);
+            margin-top: -50px; /* Overlap with previous section for visual interest */
+            position: relative;
+            z-index: 0; /* Below other sections, but above hero shapes */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #cta h2 {
+            font-size: clamp(2.2rem, 6vw, 3.5rem);
+            color: var(--md-sys-color-on-primary);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        #cta p {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            margin-bottom: 40px;
+            color: var(--md-sys-color-on-primary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface-variant);
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: auto; /* Pushes footer to the bottom of the page */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        footer .social-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        footer .social-links a {
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 1.5rem; /* Larger icons */
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        footer .social-links a:hover {
+            transform: scale(1.1);
+            color: var(--md-sys-color-primary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 900px) {
+            #hero {
+                padding: 100px 20px;
+            }
+            #hero::before {
+                width: 250px;
+                height: 250px;
+            }
+            #hero::after {
+                width: 350px;
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 20px;
+            }
+
+            .md-button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            #hero .buttons-group {
+                flex-direction: column; /* Stack buttons vertically */
+                gap: 15px;
+            }
+            #cta {
+                padding: 80px 20px;
+                clip-path: polygon(0 5%, 100% 0, 100% 95%, 0% 100%); /* Adjust clip path for smaller screens */
+                margin-top: -30px; /* Adjust overlap */
+            }
+            #hero::before {
+                width: 180px;
+                height: 180px;
+                top: 5%;
+                left: -15%;
+            }
+            #hero::after {
+                width: 250px;
+                height: 250px;
+                bottom: 2%;
+                right: -20%;
+            }
+            .theme-toggle {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+                top: 15px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 40px 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .md-button {
+                width: 100%; /* Full width buttons on very small screens */
+            }
+
+            #hero {
+                padding: 60px 15px;
+            }
+            #hero::before, #hero::after {
+                display: none; /* Hide complex shapes on tiny screens for performance/simplicity */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container">
+            <h1>Material Hub</h1>
+            <p>Your ultimate destination for discovering, exploring, and implementing Material 3 design on Android.</p>
+            <div class="buttons-group">
+                <a href="https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary" class="md-button primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github" style="margin-right: 8px;"></i> Explore on GitHub
+                </a>
+                <a href="#" class="md-button secondary">
+                    <i class="fab fa-google-play" style="margin-right: 8px;"></i> Get it on Google Play (Coming Soon)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="container">
+            <h2>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="icon">✨</span>
+                    <h3>Expressive Theming</h3>
+                    <p>Dive into dynamic color and advanced theming capabilities that adapt to your device and preferences.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🎨</span>
+                    <h3>Component Showcase</h3>
+                    <p>Visually explore every Material 3 component, understanding its nuances and usage in real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">💡</span>
+                    <h3>Design Insights</h3>
+                    <p>Gain deeper understanding with detailed explanations and best practices for Material 3 implementation.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">⚙️</span>
+                    <h3>Interactive Playground</h3>
+                    <p>Experiment with component properties and see immediate visual feedback within the app.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">📐</span>
+                    <h3>Layout Examples</h3>
+                    <p>Discover various responsive layouts and patterns built with Material 3 principles.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">📚</span>
+                    <h3>Resource Hub</h3>
+                    <p>Access curated links to official Material 3 documentation, articles, and tutorials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showcase Section -->
+    <section id="showcase">
+        <div class="container">
+            <h2>See Material Hub in Action</h2>
+            <p>Get a glimpse of the beautiful and intuitive user interface designed with Material 3.</p>
+            <img src="https://via.placeholder.com/700x400/D0BCFF/21005D?text=App+Screenshot+Here" alt="Material Hub App Screenshot" class="app-screenshot">
+            <p style="margin-top: 20px; font-style: italic; color: var(--md-sys-color-on-surface-variant);">
+                (Placeholder image - replace with actual app screenshots or a video!)
+            </p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About Material Hub</h2>
+            <p>
+                Material Hub is an experimental Android application dedicated to showcasing and exploring the latest Material 3 design language.
+                Built by developers for developers and designers, it serves as a practical reference and interactive playground for understanding
+                how Material 3 principles translate into real-world Android experiences.
+            </p>
+            <p>
+                Our goal is to provide a comprehensive resource that bridges the gap between Material Design theory and its practical application on the Android platform.
+                Explore dynamic color systems, custom shapes, expressive typography, and fluid motion, all demonstrated within the app itself.
+                Whether you're learning Material 3, seeking inspiration, or debugging an implementation, Material Hub aims to be your go-to guide.
+            </p>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="cta">
+        <div class="container">
+            <h2>Ready to Embrace Material 3?</h2>
+            <p>Start exploring the future of Android design today.</p>
+            <a href="https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary" class="md-button primary"
+               target="_blank" rel="noopener noreferrer"
+               style="background-color: var(--md-sys-color-on-primary); color: var(--md-sys-color-primary);">
+                <i class="fab fa-github" style="margin-right: 8px;"></i> Get Material Hub on GitHub
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2025 Material Hub. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+                <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            <p style="margin-top: 10px;">Designed with Material 3 Expressive Principles.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const htmlElement = document.documentElement; // The <html> tag
+
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                htmlElement.classList.add(savedTheme);
+                updateThemeToggleIcon(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                // If no saved theme, check system preference
+                htmlElement.classList.add('dark-mode');
+                updateThemeToggleIcon('dark-mode');
+            } else {
+                htmlElement.classList.add('light-mode'); // Default to light mode if nothing preferred
+                updateThemeToggleIcon('light-mode');
+            }
+
+
+            // Function to update the toggle button icon
+            function updateThemeToggleIcon(currentTheme) {
+                const icon = themeToggleBtn.querySelector('i');
+                if (currentTheme === 'dark-mode') {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+
+            // Toggle theme on button click
+            themeToggleBtn.addEventListener('click', () => {
+                let currentTheme;
+                if (htmlElement.classList.contains('dark-mode')) {
+                    htmlElement.classList.remove('dark-mode');
+                    htmlElement.classList.add('light-mode');
+                    currentTheme = 'light-mode';
+                } else {
+                    htmlElement.classList.remove('light-mode');
+                    htmlElement.classList.add('dark-mode');
+                    currentTheme = 'dark-mode';
+                }
+                localStorage.setItem('theme', currentTheme);
+                updateThemeToggleIcon(currentTheme);
+            });
+        });
+    </script>
+
+</body>
+</html>
