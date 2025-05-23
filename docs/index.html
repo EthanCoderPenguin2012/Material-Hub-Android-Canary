@@ -119,11 +119,20 @@
             left: 0;
             right: 0;
             z-index: 1000;
+            transform: translateY(-100%); /* Start off-screen */
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Slide-down animation */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+
+        .banner-notice.active {
+            transform: translateY(0); /* Slide into view */
+        }
+
         body {
             font-family: 'Roboto', 'Noto Sans', sans-serif;
             margin: 0;
-            padding: 0;
+            /* Adjust padding-top to account for fixed banner */
+            padding-top: 50px; /* Assuming banner height is around 40px + some margin */
             background-color: var(--md-sys-color-background);
             color: var(--md-sys-color-on-background);
             line-height: 1.6;
@@ -197,6 +206,7 @@
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform, opacity; /* Hint for performance */
         }
 
         .animate-on-scroll.active {
@@ -207,10 +217,11 @@
         /* Staggered animation for feature cards */
         #features .feature-card {
             transition-delay: var(--stagger-delay, 0s); /* Custom property for stagger */
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         #features .feature-card.active {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1.005); /* Added slight scale */
         }
 
         /* Hero background shapes animation */
@@ -218,6 +229,17 @@
             0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.6; }
             50% { transform: translate(20px, 30px) rotate(10deg) scale(1.05); opacity: 0.8; }
             100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.6; }
+        }
+
+        /* CTA Button Pulse Animation */
+        @keyframes pulseEffect {
+            0% { transform: scale(1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+            50% { transform: scale(1.03); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); }
+            100% { transform: scale(1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+        }
+
+        .md-button.primary.pulse {
+            animation: pulseEffect 2s infinite ease-in-out;
         }
 
         /* ==================================================================== */
@@ -236,6 +258,7 @@
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-transform: none;
+            will-change: transform, background-color, color, box-shadow;
         }
 
         .md-button.primary {
@@ -267,7 +290,7 @@
         /* ==================================================================== */
         .theme-toggle {
             position: fixed;
-            top: 60px; /* Push below the banner (banner is ~40px high + some spacing) */
+            top: calc(10px + 40px); /* Adjust based on banner height for initial placement */
             right: 20px;
             background-color: var(--md-sys-color-surface-variant);
             color: var(--md-sys-color-on-surface-variant);
@@ -283,6 +306,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             z-index: 100;
+            will-change: transform, background-color, color, box-shadow;
         }
 
         .theme-toggle:hover {
@@ -310,6 +334,18 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
             transition: background 0.4s ease, color 0.4s ease;
         }
+
+        #hero h1, #hero p, #hero .buttons-group {
+            /* Apply animate-on-scroll to these elements directly */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        #hero h1.active { transition-delay: 0.2s; }
+        #hero p.active { transition-delay: 0.4s; }
+        #hero .buttons-group.active { transition-delay: 0.6s; }
+
 
         #hero h1 {
             margin-bottom: 20px;
@@ -388,6 +424,7 @@
             align-items: flex-start;
             height: 100%;
             color: var(--md-sys-color-on-surface-variant);
+            will-change: transform, opacity, background-color, color, box-shadow;
         }
 
         .feature-card:hover {
@@ -433,6 +470,7 @@
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
             margin-top: 30px;
             transition: transform 0.5s ease;
+            will-change: transform;
         }
         .app-screenshot:hover {
             transform: scale(1.02);
@@ -567,12 +605,15 @@
                 width: 45px;
                 height: 45px;
                 font-size: 1.3rem;
-                top: 55px; /* Also push below banner on mobile */
+                top: calc(10px + 40px); /* Adjust based on banner height for initial placement */
                 right: 15px;
             }
         }
 
         @media (max-width: 480px) {
+            body {
+                padding-top: 40px; /* Adjust for smaller banner on mobile */
+            }
             section {
                 padding: 40px 15px;
             }
@@ -599,27 +640,30 @@
             #hero::before, #hero::after {
                 display: none;
             }
+            .theme-toggle {
+                top: calc(5px + 40px); /* Slightly lower for very small screens if banner padding changes */
+            }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-        <div class="banner-notice">
-           <p>Notice: The app is currenty in its canary form, so expect bugs or errors. </p>
+        <div class="banner-notice" id="banner-notice">
+           <p>Notice: The app is currently in its canary form, so expect bugs or errors. </p>
         </div>
     </header>
     <!-- Theme Toggle Button -->
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark mode">
-        <i class="fas fa-sun"></i> <!-- Default to sun icon for light mode -->
+        <i class="fas fa-sun"></i> <!-- Default to sun icon for light mode (meaning switch to dark) -->
     </button>
 
     <!-- Hero Section -->
-    <section id="hero" class="animate-on-scroll">
+    <section id="hero">
         <div class="container">
-            <h1>Material Hub</h1>
-            <p>Your one-stop shop for everything that matters.</p>
-            <div class="buttons-group">
+            <h1 class="animate-on-scroll">Material Hub</h1>
+            <p class="animate-on-scroll">Your one-stop shop for everything that matters.</p>
+            <div class="buttons-group animate-on-scroll">
                 <a href="https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary" class="md-button primary" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-github" style="margin-right: 8px;"></i> Explore on GitHub
                 </a>
@@ -635,32 +679,32 @@
         <div class="container">
             <h2 class="animate-on-scroll">Key Features</h2>
             <div class="features-grid">
-                <div class="feature-card animate-on-scroll" style="--stagger-delay: 0.1s;">
+                <div class="feature-card animate-on-scroll">
                     <span class="icon">✨</span>
                     <h3>Expressive Theming</h3>
                     <p>Dive into dynamic color and advanced theming capabilities that adapt to your device and preferences.</p>
                 </div>
-                <div class="feature-card animate-on-scroll" style="--stagger-delay: 0.2s;">
+                <div class="feature-card animate-on-scroll">
                     <span class="icon">🎨</span>
                     <h3>Weather</h3>
                     <p>Get real-time weather updates and forecasts tailored to your location.</p>
                 </div>
-                <div class="feature-card animate-on-scroll" style="--stagger-delay: 0.3s;">
+                <div class="feature-card animate-on-scroll">
                     <span class="icon">💡</span>
                     <h3>News</h3>
                     <p>Stay updated with the latest news and trends.</p>
                 </div>
-                <div class="feature-card animate-on-scroll" style="--stagger-delay: 0.4s;">
+                <div class="feature-card animate-on-scroll">
                     <span class="icon">⚙️</span>
                     <h3>AI Assistant (Coming Soon)</h3>
                     <p>Get personalized assistance and recommendations powered by AI.</p>
                 </div>
-                <div class="feature-card animate-on-scroll" style="--stagger-delay: 0.5s;">
+                <div class="feature-card animate-on-scroll">
                     <span class="icon">📐</span>
                     <h3>Widgets (Coming Soon)</h3>
                     <p>Discover a variety of widgets for hands-free lookat for your day.</p>
                 </div>
-                <div class="feature-card animate-on-scroll" style="--stagger-delay: 0.6s;">
+                <div class="feature-card animate-on-scroll">
                     <span class="icon">📚</span>
                     <h3>More features (Coming Soon)</h3>
                     <p>Keep a lookout at the readme and releases page.</p>
@@ -682,22 +726,22 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="animate-on-scroll">
+    <section id="about">
         <div class="container">
-            <h2>About Material Hub</h2>
-            <p>
-                Material Hub is a open-source app made to help you manage your day, from tasks to weather, and more.
+            <h2 class="animate-on-scroll">About Material Hub</h2>
+            <p class="animate-on-scroll">
+                Material Hub is an open-source app made to help you manage your day, from tasks to weather, and more.
             </p>
            
         </div>
     </section>
 
     <!-- Call to Action Section -->
-    <section id="cta" class="animate-on-scroll">
+    <section id="cta">
         <div class="container">
-            <h2>Ready to Explore?</h2>
-            <p>Start managing your day now!</p>
-            <a href="https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary" class="md-button primary"
+            <h2 class="animate-on-scroll">Ready to Explore?</h2>
+            <p class="animate-on-scroll">Start managing your day now!</p>
+            <a href="https://github.com/EthanCoderPenguin2012/Material-Hub-Android-Canary" class="md-button primary pulse animate-on-scroll"
                target="_blank" rel="noopener noreferrer"
                style="background-color: var(--md-sys-color-on-primary); color: var(--md-sys-color-primary); /* Button in CTA section often inverts colors */">
                 <i class="fab fa-github" style="margin-right: 8px;"></i> Get Material Hub on GitHub
@@ -714,7 +758,7 @@
                     <i class="fab fa-github"></i>
                 </a>
                 <a href="#" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-                    <i class="fab fa-x-twitter"></i>
+                    <i class="fab fa-x-twitter"></i> <!-- Corrected icon class to fab -->
                 </a>
                 <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
@@ -728,6 +772,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggleBtn = document.getElementById('theme-toggle');
             const htmlElement = document.documentElement; // The <html> tag
+            const bannerNotice = document.getElementById('banner-notice');
+
+            // --- Banner Notice Animation ---
+            // Trigger banner slide-down after a short delay
+            setTimeout(() => {
+                bannerNotice.classList.add('active');
+            }, 500); // 0.5 second delay
 
             // --- Theme Toggling Logic ---
             // Function to update the toggle button icon
@@ -735,10 +786,10 @@
                 const icon = themeToggleBtn.querySelector('i');
                 if (currentTheme === 'dark-mode') {
                     icon.classList.remove('fa-moon');
-                    icon.classList.add('fa-sun');
+                    icon.classList.add('fa-sun'); // Show sun to indicate clicking it switches to light
                 } else {
                     icon.classList.remove('fa-sun');
-                    icon.classList.add('fa-moon');
+                    icon.classList.add('fa-moon'); // Show moon to indicate clicking it switches to dark
                 }
             }
 
@@ -785,7 +836,6 @@
                         if (entry.target.classList.contains('features-grid')) {
                             // Special handling for feature cards to stagger animation
                             Array.from(entry.target.children).forEach((card, index) => {
-                                // Only animate if not already active to prevent re-animation on scroll up/down
                                 if (!card.classList.contains('active')) {
                                     card.style.setProperty('--stagger-delay', `${index * 0.1}s`);
                                     card.classList.add('active');
@@ -794,8 +844,7 @@
                         } else {
                             entry.target.classList.add('active');
                         }
-                        // Optionally stop observing once animated
-                        // observer.unobserve(entry.target);
+                        // Optionally stop observing once animated: observer.unobserve(entry.target);
                     } else {
                         // Optional: remove 'active' class when out of view to re-animate on scroll
                         // entry.target.classList.remove('active');
@@ -804,16 +853,14 @@
             }, observerOptions);
 
             // Observe sections and elements within them
-            document.querySelectorAll('section.animate-on-scroll').forEach(section => {
-                observer.observe(section);
+            document.querySelectorAll('section').forEach(section => {
+                // Specifically target animate-on-scroll elements within sections
+                section.querySelectorAll('.animate-on-scroll').forEach(element => {
+                    observer.observe(element);
+                });
             });
 
-            // Observe specific elements that might need separate animation triggers
-            document.querySelectorAll('#features h2.animate-on-scroll, #showcase h2.animate-on-scroll, #showcase p.animate-on-scroll, #showcase .app-screenshot.animate-on-scroll, #about h2.animate-on-scroll, #about p.animate-on-scroll, #cta h2.animate-on-scroll, #cta p.animate-on-scroll').forEach(element => {
-                observer.observe(element);
-            });
-
-            // Specifically observe the features grid, as its children will be staggered
+            // Observe the features grid, as its children will be staggered
             const featuresGrid = document.querySelector('.features-grid');
             if (featuresGrid) {
                 observer.observe(featuresGrid);
