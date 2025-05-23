@@ -9,10 +9,11 @@
 ![Progress](https://img.shields.io/badge/Status-Broken-red?style=for-the-badge&logo=target&logoColor=white)
 
 ⸻
+> Update: You might be wondering why I just added a react app. This is how I plan to run the website for this project. This is so I can give it a more modern look and feel and use the Material UI library.
+---
 
-🚨 Canary Notice:
-This is a preview build! Features are experimental and subject to change.
-🛠️ Stable releases are coming soon. Stay updated at the official site.
+
+> 🚨 Canary Notice: This is a preview build! Features are experimental and subject to change.🛠️ Stable releases are coming soon. Stay updated at the official site.
 
 ⸻
 
