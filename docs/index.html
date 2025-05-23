@@ -116,14 +116,19 @@
             font-weight: bolder;
             font-size: 1rem;
             position: fixed;
-            top: 0;
+            width: 100%;
             left: 0;
             right: 0;
+            top: 0;
             z-index: 1000; /* Ensure it's on top */
             transform: translateY(-100%); /* Start off-screen */
             transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Slide-down animation */
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             will-change: transform;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
         }
 
         .banner-notice.active {
@@ -303,7 +308,7 @@
             font-size: 1.5rem;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            transition: top 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
             z-index: 100;
             will-change: transform, background-color, color, box-shadow;
         }
@@ -650,7 +655,10 @@
     <!-- Header -->
     <header>
         <div class="banner-notice" id="banner-notice">
-           <p>Notice: The app is currently in its canary form, so expect bugs or errors. </p>
+           <p style="margin: 0;">Notice: The app is currently in its canary form, so expect bugs or errors.</p>
+           <button id="banner-close" aria-label="Close notice" style="position: absolute; right: 16px; top: 10px; background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; padding: 0;">
+               &times;
+           </button>
         </div>
     </header>
     <!-- Theme Toggle Button -->
@@ -771,14 +779,26 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggleBtn = document.getElementById('theme-toggle');
-            const htmlElement = document.documentElement; // The <html> tag
+            const htmlElement = document.documentElement;
             const bannerNotice = document.getElementById('banner-notice');
+            const bannerClose = document.getElementById('banner-close');
 
             // --- Banner Notice Animation ---
             if (bannerNotice) {
                 setTimeout(() => {
                     bannerNotice.classList.add('active');
-                }, 500); // 0.5 second delay
+                }, 500);
+            }
+
+            // --- Banner Close Logic ---
+            if (bannerClose && bannerNotice) {
+                bannerClose.addEventListener('click', () => {
+                    bannerNotice.classList.remove('active');
+                    setTimeout(() => {
+                        bannerNotice.style.display = 'none';
+                        document.body.classList.add('banner-hidden');
+                    }, 600); // Match the transition duration
+                });
             }
 
             // --- Theme Toggling Logic ---
