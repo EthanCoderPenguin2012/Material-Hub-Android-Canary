@@ -105,7 +105,7 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     // Browser dependency
-    implementation("androidx.browser:browser:1.7.0")
+    implementation("androidx.browser:browser:1.8.0")
 
     // Material Icons Extended
     implementation("androidx.compose.material:material-icons-extended")
