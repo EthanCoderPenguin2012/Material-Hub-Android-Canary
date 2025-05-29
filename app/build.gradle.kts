@@ -84,7 +84,7 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.1.7")
     
     // Coil for image loading
-    implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.7.0")
     
     // Accompanist for permissions and other utilities
     implementation("com.google.accompanist:accompanist-permissions:0.34.0")
