@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.compose)
 }
@@ -65,14 +64,21 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
     
     // Room Database for To-Do List
-    implementation("androidx.room:room-runtime:2.7.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.7.1")
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    // ksp(libs.androidx.room.compiler)
     
     // Retrofit for API calls
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    
+    // Moshi for JSON parsing
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.moshi.adapters)
+    // If you use Moshi codegen:
+    // ksp("com.squareup.moshi:moshi-kotlin-codegen:${libs.versions.moshi.get()}")
     
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
@@ -105,8 +111,8 @@ dependencies {
 
     // Hilt
     implementation("com.google.dagger:hilt-android:${libs.versions.hilt.get()}")
-    ksp("com.google.dagger:hilt-android-compiler:${libs.versions.hilt.get()}")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    annotationProcessor("com.google.dagger:hilt-compiler:${libs.versions.hilt.get()}")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // Browser dependency
     implementation("androidx.browser:browser:1.8.0")
