@@ -85,7 +85,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
     
     // Location Services
-    implementation("com.google.android.gms:play-services-location:21.1.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
     
     // Calendar Integration
     implementation("androidx.work:work-runtime-ktx:2.9.0")
